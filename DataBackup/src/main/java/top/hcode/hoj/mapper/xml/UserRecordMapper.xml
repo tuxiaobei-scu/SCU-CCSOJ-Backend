@@ -146,6 +146,9 @@
         <if test="rankType == 'OI'">
             ORDER BY score DESC, ac DESC
         </if>
+        <if test="rankType == 'CTF'">
+            ORDER BY ac DESC, total DESC
+        </if>
     </select>
 
 </mapper>

@@ -121,6 +121,9 @@ public class Constants {
         TYPE_ACM(0, "ACM"),
         TYPE_OI(1, "OI"),
 
+
+        TYPE_CTF(2, "CTF"),
+
         STATUS_SCHEDULED(-1, "Scheduled"),
         STATUS_RUNNING(0, "Running"),
         STATUS_ENDED(1, "Ended"),

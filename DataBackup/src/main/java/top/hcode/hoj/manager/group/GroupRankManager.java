@@ -53,7 +53,7 @@ public class GroupRankManager {
         } else if (type.intValue() == Constants.Contest.TYPE_OI.getCode()) {
             rankType = Constants.Contest.TYPE_OI.getName();
         } else {
-            throw new StatusFailException("排行榜类型代码不正确，请使用0(ACM),1(OI)！");
+            throw new StatusFailException("排行榜类型代码不正确，请使用0(ACM),1(OI),2(CTF)！");
         }
 
         QueryWrapper<GroupMember> groupMemberQueryWrapper = new QueryWrapper<>();
