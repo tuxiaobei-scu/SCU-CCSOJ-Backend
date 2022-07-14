@@ -281,6 +281,7 @@ public class StartupRunner implements CommandLineRunner {
             log.error("[Init System Config] [{}]: There is no account or password configured for remote judge, " +
                             "username list:{}, password list:{}", oj, Arrays.toString(usernameList.toArray()),
                     Arrays.toString(passwordList.toArray()));
+            return;
         }
 
         List<RemoteJudgeAccount> remoteAccountList = new LinkedList<>();

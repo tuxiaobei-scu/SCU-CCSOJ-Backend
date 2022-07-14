@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @Author: Himit_ZH
- * @Date: 2020/12/30 21:37
+ * @Author: tuxiaobei
+ * @Date: 2022/07/15 0:38
  * @Description:
  */
 @Data
@@ -20,4 +20,5 @@ public class ProblemInfoVo {
     private List<String> languages;
     private ProblemCountVo problemCount;
     private HashMap<String, String> codeTemplate;
+    private List<String> file_names;
 }
