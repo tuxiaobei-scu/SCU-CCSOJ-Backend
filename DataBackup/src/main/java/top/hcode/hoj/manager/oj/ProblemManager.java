@@ -79,9 +79,9 @@ public class ProblemManager {
         if (!StringUtils.isEmpty(keyword)) {
             keyword = keyword.trim();
         }
-        if (oj != null && !Constants.RemoteOJ.isRemoteOJ(oj)) {
-            oj = "Mine";
-        }
+//        if (oj != null && oj != "Mine_OI" && oj != "Mine_CTF" && !Constants.RemoteOJ.isRemoteOJ(oj)) {
+//            oj = "Mine";
+//        }
         return problemEntityService.getProblemList(limit, currentPage, null, keyword,
                 difficulty, tagId, oj);
     }
