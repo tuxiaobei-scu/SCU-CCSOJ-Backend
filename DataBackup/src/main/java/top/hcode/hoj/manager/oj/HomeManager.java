@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.hcode.hoj.pojo.entity.common.File;
 import top.hcode.hoj.pojo.vo.ACMRankVo;
+import top.hcode.hoj.pojo.vo.RPRankVo;
 import top.hcode.hoj.pojo.vo.AnnouncementVo;
 import top.hcode.hoj.pojo.vo.ConfigVo;
 import top.hcode.hoj.pojo.vo.ContestVo;
@@ -91,6 +92,7 @@ public class HomeManager {
     public List<ACMRankVo> getRecentSevenACRank() {
         return userRecordEntityService.getRecent7ACRank();
     }
+
 
 
     /**

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.hcode.hoj.common.result.CommonResult;
 import top.hcode.hoj.pojo.vo.ACMRankVo;
+import top.hcode.hoj.pojo.vo.RPRankVo;
 import top.hcode.hoj.pojo.vo.AnnouncementVo;;
 import top.hcode.hoj.pojo.vo.ContestVo;
 import top.hcode.hoj.service.oj.HomeService;
@@ -66,7 +67,13 @@ public class HomeController {
     public CommonResult<List<ACMRankVo>> getRecentSevenACRank() {
         return homeService.getRecentSevenACRank();
     }
-
+    /**
+     * @MethodName getRPRank
+     * @Params * @param null
+     * @Description 获取用户rp榜单
+     * @Return
+     * @Since 2021/7/14
+     */
 
     /**
      * @MethodName getRecentOtherContest

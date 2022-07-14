@@ -3,6 +3,7 @@ package top.hcode.hoj.service.oj;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import top.hcode.hoj.common.result.CommonResult;
 import top.hcode.hoj.pojo.vo.ACMRankVo;
+import top.hcode.hoj.pojo.vo.RPRankVo;
 import top.hcode.hoj.pojo.vo.AnnouncementVo;
 import top.hcode.hoj.pojo.vo.ContestVo;
 
@@ -22,6 +23,7 @@ public interface HomeService {
     public CommonResult<List<HashMap<String, Object>>> getHomeCarousel();
 
     public CommonResult<List<ACMRankVo>> getRecentSevenACRank();
+
 
     public CommonResult<List<HashMap<String, Object>>> getRecentOtherContest();
 

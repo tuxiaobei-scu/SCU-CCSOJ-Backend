@@ -19,6 +19,22 @@
         ORDER BY ac DESC,total ASC
     </select>
 
+    <select id="getRPRankList" resultType="top.hcode.hoj.pojo.vo.RPRankVo" useCache="true">
+        SELECT u.uuid as uid,u.nickname,u.username,left(u.signature,100) as signature,u.avatar,
+        u.title_name,u.title_color,u.rp
+        FROM user_info u
+        <where>
+            u.status = 0
+            <if test="uidList!=null">
+                AND u.uuid in
+                <foreach collection="uidList" item="uid" open="(" separator="," close=")">
+                    #{uid}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY u.rp DESC
+    </select>
+
     <select id="getRecent7ACRank" resultType="top.hcode.hoj.pojo.vo.ACMRankVo">
         SELECT u.uuid as uid,u.nickname,u.username,u.avatar,u.title_name,u.title_color,
         (SELECT COUNT( DISTINCT pid ) FROM user_acproblem WHERE uid =u.uuid
@@ -145,9 +161,6 @@
         </if>
         <if test="rankType == 'OI'">
             ORDER BY score DESC, ac DESC
-        </if>
-        <if test="rankType == 'CTF'">
-            ORDER BY ac DESC, total DESC
         </if>
     </select>
 
