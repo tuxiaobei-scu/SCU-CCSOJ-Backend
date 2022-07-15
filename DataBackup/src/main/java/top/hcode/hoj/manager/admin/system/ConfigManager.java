@@ -92,6 +92,12 @@ public class ConfigManager {
     @Value("${spring.cloud.nacos.config.password}")
     private String nacosPassword;
 
+    @Value("${judger-host}")
+    private String judgerHost;
+
+    @Value("${judger-post}")
+    private String judgerPost;
+
     /**
      * @MethodName getServiceInfo
      * @Params * @param null
@@ -132,7 +138,7 @@ public class ConfigManager {
         List<JSONObject> serviceInfoList = new LinkedList<>();
         List<ServiceInstance> serviceInstances = discoveryClient.getInstances(judgeServiceName);
         for (ServiceInstance serviceInstance : serviceInstances) {
-            String result = restTemplate.getForObject(serviceInstance.getUri() + "/get-sys-config", String.class);
+            String result = restTemplate.getForObject("http://" + judgerHost + ":" + judgerPost + "/get-sys-config", String.class);
             JSONObject jsonObject = JSONUtil.parseObj(result);
             jsonObject.put("service", serviceInstance);
             serviceInfoList.add(jsonObject);

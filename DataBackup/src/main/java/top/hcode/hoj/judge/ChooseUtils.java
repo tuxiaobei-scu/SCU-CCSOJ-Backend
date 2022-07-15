@@ -44,6 +44,12 @@ public class ChooseUtils {
 
     public static final boolean openCodeforcesFixServer = false;
 
+    @Value("${judger-host}")
+    private String judgerHost;
+
+    @Value("${judger-post}")
+    private String judgerPost;
+
     /**
      * @param
      * @MethodName chooseServer
@@ -59,11 +65,11 @@ public class ChooseUtils {
             return null;
         }
         List<String> keyList = new ArrayList<>();
-        // 获取当前健康实例取出ip和port拼接
+        //获取当前健康实例取出ip和port拼接
         for (Instance instance : instances) {
             keyList.add(instance.getIp() + ":" + instance.getPort());
         }
-
+//        keyList.add(judgerHost + ":" + judgerPost);
         // 过滤出小于或等于规定最大并发判题任务数的服务实例且健康的判题机
         QueryWrapper<JudgeServer> judgeServerQueryWrapper = new QueryWrapper<>();
         judgeServerQueryWrapper
@@ -103,11 +109,11 @@ public class ChooseUtils {
             return null;
         }
         List<String> keyList = new ArrayList<>();
-        // 获取当前健康实例取出ip和port拼接
+        //获取当前健康实例取出ip和port拼接
         for (Instance instance : instances) {
             keyList.add(instance.getIp() + ":" + instance.getPort());
         }
-
+        //keyList.add(judgerHost + ":" + judgerPost);
         // 过滤出小于或等于规定最大并发判题任务数的服务实例且健康的判题机
         QueryWrapper<JudgeServer> judgeServerQueryWrapper = new QueryWrapper<>();
         judgeServerQueryWrapper

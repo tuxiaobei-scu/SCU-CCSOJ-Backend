@@ -6,6 +6,7 @@ import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -59,6 +60,12 @@ public class Dispatcher {
     @Autowired
     private RemoteJudgeAccountEntityServiceImpl remoteJudgeAccountService;
 
+    @Value("${judger-host}")
+    private String judgerHost;
+
+    @Value("${judger-post}")
+    private String judgerPost;
+
     public CommonResult dispatcherJudge(String type, String path, Object data) {
         switch (type) {
             case "judge":
@@ -93,7 +100,7 @@ public class Dispatcher {
 
             if (judgeServer != null) { // 获取到判题机资源
                 try {
-                    JSONObject resultJson = restTemplate.postForObject("http://" + judgeServer.getUrl() + path, testJudgeReq, JSONObject.class);
+                    JSONObject resultJson = restTemplate.postForObject("http://" + judgerHost + ":" + judgerPost + path, testJudgeReq, JSONObject.class);
                     if (resultJson != null) {
                         if (resultJson.getInt("status") == ResultStatus.SUCCESS.getStatus()) {
                             TestJudgeRes testJudgeRes = resultJson.getBean("data", TestJudgeRes.class);
@@ -112,7 +119,7 @@ public class Dispatcher {
                         }
                     }
                 } catch (Exception e) {
-                    log.error("调用判题服务器[" + judgeServer.getUrl() + "]发送异常-------------->", e);
+                    log.error("调用判题服务器[" + "http://" + judgerHost + ":" + judgerPost + "]发送异常-------------->", e);
                     TestJudgeRes testJudgeRes = TestJudgeRes.builder()
                             .status(Constants.Judge.STATUS_SYSTEM_ERROR.getStatus())
                             .time(0L)
@@ -186,9 +193,9 @@ public class Dispatcher {
                 data.setJudgeServerPort(judgeServer.getPort());
                 CommonResult result = null;
                 try {
-                    result = restTemplate.postForObject("http://" + judgeServer.getUrl() + path, data, CommonResult.class);
+                    result = restTemplate.postForObject("http://" + judgerHost + ":" + judgerPost + path, data, CommonResult.class);
                 } catch (Exception e) {
-                    log.error("调用判题服务器[" + judgeServer.getUrl() + "]发送异常-------------->", e);
+                    log.error("调用判题服务器[" + "http://" + judgerHost + ":" + judgerPost + "]发送异常-------------->", e);
                     if (isRemote) {
                         changeRemoteJudgeStatus(finalOj, data.getUsername(), judgeServer);
                     }
@@ -218,9 +225,9 @@ public class Dispatcher {
         JudgeServer judgeServer = chooseUtils.chooseServer(false);
         if (judgeServer != null) {
             try {
-                result = restTemplate.postForObject("http://" + judgeServer.getUrl() + path, data, CommonResult.class);
+                result = restTemplate.postForObject("http://" + judgerHost + ":" + judgerPost + path, data, CommonResult.class);
             } catch (Exception e) {
-                log.error("调用判题服务器[" + judgeServer.getUrl() + "]发送异常-------------->", e.getMessage());
+                log.error("调用判题服务器[" + "http://" + judgerHost + ":" + judgerPost+ "]发送异常-------------->", e.getMessage());
             } finally {
                 // 无论成功与否，都要将对应的当前判题机当前判题数减1
                 reduceCurrentTaskNum(judgeServer.getId());
