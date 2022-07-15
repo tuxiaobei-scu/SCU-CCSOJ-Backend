@@ -466,6 +466,7 @@ public class ConfigManager {
             log.error("[Change by Switch] [{}]: There is no account or password configured for remote judge, " +
                             "username list:{}, password list:{}", oj, Arrays.toString(usernameList.toArray()),
                     Arrays.toString(passwordList.toArray()));
+            return;
         }
 
         QueryWrapper<RemoteJudgeAccount> remoteJudgeAccountQueryWrapper = new QueryWrapper<>();

@@ -1,6 +1,7 @@
 package top.hcode.hoj.manager.oj;
 
 import cn.hutool.core.collection.CollectionUtil;
+import top.hcode.hoj.manager.admin.problem.AdminGroupProblemManager;
 import top.hcode.hoj.validator.GroupValidator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -35,6 +36,9 @@ import java.util.stream.Collectors;
 public class ProblemManager {
     @Autowired
     private ProblemEntityService problemEntityService;
+
+    @Autowired
+    private ProblemCaseEntityService problemCaseEntityService;
 
     @Autowired
     private ProblemTagEntityService problemTagEntityService;
@@ -284,9 +288,26 @@ public class ProblemManager {
         problem.setJudgeExtraFile(null)
                 .setSpjCode(null)
                 .setSpjLanguage(null);
-
+        List<String> file_names = new ArrayList<>();
+        if (problem.getJudgeMode().equals("Submit_Answer")) {
+            QueryWrapper<ProblemCase> problemCaseQueryWrapper = new QueryWrapper<>();
+            problemCaseQueryWrapper.eq("pid", problem.getId()).eq("status", 0);
+            if (problem.getIsUploadCase()) {
+                problemCaseQueryWrapper.last("order by length(input) asc,input asc");
+            }
+            List<ProblemCase> datas =  problemCaseEntityService.list(problemCaseQueryWrapper);
+            int i = 1;
+            for (ProblemCase data: datas) {
+                if (problem.getIsUploadCase()) {
+                    file_names.add(data.getOutput());
+                } else {
+                    String name = i + ".out";
+                    file_names.add(name);
+                }
+            }
+        }
         // 将数据统一写入到一个Vo返回数据实体类中
-        return new ProblemInfoVo(problem, tags, languagesStr, problemCount, LangNameAndCode);
+        return new ProblemInfoVo(problem, tags, languagesStr, problemCount, LangNameAndCode, file_names);
     }
 
 }

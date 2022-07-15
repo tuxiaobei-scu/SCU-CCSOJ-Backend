@@ -44,6 +44,9 @@ public class ContestManager {
     private ContestEntityService contestEntityService;
 
     @Autowired
+    private ProblemCaseEntityService problemCaseEntityService;
+
+    @Autowired
     private ContestRecordEntityService contestRecordEntityService;
 
     @Autowired
@@ -352,8 +355,27 @@ public class ContestManager {
                 LangNameAndCode.put(tmpMap.get(codeTemplate.getLid()), codeTemplate.getCode());
             }
         }
+
+        List<String> file_names = new ArrayList<>();
+        if (problem.getJudgeMode().equals("Submit_Answer")) {
+            QueryWrapper<ProblemCase> problemCaseQueryWrapper = new QueryWrapper<>();
+            problemCaseQueryWrapper.eq("pid", problem.getId()).eq("status", 0);
+            if (problem.getIsUploadCase()) {
+                problemCaseQueryWrapper.last("order by length(input) asc,input asc");
+            }
+            List<ProblemCase> datas =  problemCaseEntityService.list(problemCaseQueryWrapper);
+            int i = 1;
+            for (ProblemCase data: datas) {
+                if (problem.getIsUploadCase()) {
+                    file_names.add(data.getOutput());
+                } else {
+                    String name = i + ".out";
+                    file_names.add(name);
+                }
+            }
+        }
         // 将数据统一写入到一个Vo返回数据实体类中
-        return new ProblemInfoVo(problem, tags, languagesStr, problemCount, LangNameAndCode);
+        return new ProblemInfoVo(problem, tags, languagesStr, problemCount, LangNameAndCode, file_names);
     }
 
 

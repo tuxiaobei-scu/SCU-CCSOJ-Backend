@@ -9,8 +9,8 @@ import org.springframework.util.StringUtils;
 import top.hcode.hoj.common.exception.StatusFailException;
 import top.hcode.hoj.pojo.entity.user.UserInfo;
 import top.hcode.hoj.pojo.vo.ACMRankVo;
-import top.hcode.hoj.pojo.vo.CTFRankVo;
 import top.hcode.hoj.pojo.vo.OIRankVo;
+import top.hcode.hoj.pojo.vo.RPRankVo;
 import top.hcode.hoj.dao.user.UserInfoEntityService;
 import top.hcode.hoj.dao.user.UserRecordEntityService;
 import top.hcode.hoj.utils.Constants;
@@ -79,10 +79,10 @@ public class RankManager {
             rankList = getACMRankList(limit, currentPage, uidList);
         } else if (type.intValue() == Constants.Contest.TYPE_OI.getCode()) {
             rankList = getOIRankList(limit, currentPage, uidList);
-        } else if (type.intValue() == Constants.Contest.TYPE_CTF.getCode()) {
-            rankList = getCTFRankList(limit, currentPage, uidList);
-        } else {
-            throw new StatusFailException("排行榜类型代码不正确，请使用0(ACM),1(OI),2(CTF)！");
+        } else if(type.intValue() == Constants.Contest.TYPE_ALL.getCode()) {
+            rankList = getRPRankList(limit, currentPage, uidList);
+        } else{
+            throw new StatusFailException("排行榜类型代码不正确，请使用0(ACM),1(OI),2(CTF),3(CTF)！");
         }
         return rankList;
     }
@@ -132,28 +132,28 @@ public class RankManager {
             }
         }
 
+
+
         return data;
     }
-    private IPage<CTFRankVo> getCTFRankList(int limit, int currentPage, List<String> uidList) {
-
-        IPage<CTFRankVo> data = null;
+    private IPage<RPRankVo> getRPRankList(int limit, int currentPage, List<String> uidList) {
+        IPage<RPRankVo> data = null;
         if (uidList != null) {
-            Page<CTFRankVo> page = new Page<>(currentPage, limit);
+            Page<RPRankVo> page = new Page<>(currentPage, limit);
             if (uidList.size() > 0) {
-                data = userRecordEntityService.getCTFRankList(page, uidList);
+                data = userRecordEntityService.getRPRankList(page, uidList);
             } else {
                 data = page;
             }
         } else {
-            String key = Constants.Account.CTF_RANK_CACHE.getCode() + "_" + limit + "_" + currentPage;
-            data = (IPage<CTFRankVo>) redisUtils.get(key);
+            String key = Constants.Account.RP_RANK_CACHE.getCode() + "_" + limit + "_" + currentPage;
+            data = (IPage<RPRankVo>) redisUtils.get(key);
             if (data == null) {
-                Page<CTFRankVo> page = new Page<>(currentPage, limit);
-                data = userRecordEntityService.getCTFRankList(page, null);
+                Page<RPRankVo> page = new Page<>(currentPage, limit);
+                data = userRecordEntityService.getRPRankList(page, null);
                 redisUtils.set(key, data, cacheRankSecond);
             }
         }
-
         return data;
     }
 }

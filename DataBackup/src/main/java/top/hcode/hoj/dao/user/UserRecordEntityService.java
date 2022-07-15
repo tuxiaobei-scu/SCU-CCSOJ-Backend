@@ -6,9 +6,9 @@ import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.vo.ACMRankVo;
 import top.hcode.hoj.pojo.entity.user.UserRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.hcode.hoj.pojo.vo.CTFRankVo;
 import top.hcode.hoj.pojo.vo.OIRankVo;
 import top.hcode.hoj.pojo.vo.UserHomeVo;
+import top.hcode.hoj.pojo.vo.RPRankVo;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ public interface UserRecordEntityService extends IService<UserRecord> {
 
     List<ACMRankVo> getRecent7ACRank();
 
+
     UserHomeVo getUserHomeInfo(String uid, String username);
 
     List<Judge> getLastYearUserJudgeList(String uid, String username);
@@ -32,9 +33,8 @@ public interface UserRecordEntityService extends IService<UserRecord> {
 
     IPage<ACMRankVo> getACMRankList(Page<ACMRankVo> page, List<String> uidList);
 
-    IPage<CTFRankVo> getCTFRankList(Page<CTFRankVo> page, List<String> uidList);
+    IPage<RPRankVo> getRPRankList(Page<RPRankVo> page, List<String> uidList);
 
     IPage<OIRankVo> getGroupRankList(Page<OIRankVo> page, Long gid, List<String> uidList, String rankType, Boolean useCache);
-
 
 }

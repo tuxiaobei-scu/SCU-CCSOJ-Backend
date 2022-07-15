@@ -8,6 +8,7 @@ import top.hcode.hoj.pojo.vo.ACMRankVo;
 import top.hcode.hoj.pojo.vo.AnnouncementVo;
 import top.hcode.hoj.pojo.vo.ContestVo;
 import top.hcode.hoj.service.oj.HomeService;
+import top.hcode.hoj.pojo.vo.RPRankVo;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class HomeServiceImpl implements HomeService {
     public CommonResult<List<ACMRankVo>> getRecentSevenACRank() {
         return CommonResult.successResponse(homeManager.getRecentSevenACRank());
     }
+
 
     @Override
     public CommonResult<List<HashMap<String, Object>>> getRecentOtherContest() {
