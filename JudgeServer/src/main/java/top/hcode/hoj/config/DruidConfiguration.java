@@ -23,7 +23,7 @@ public class DruidConfiguration {
     @Value("${hoj.db.password:hoj123456}")
     private String password;
 
-    @Value("${hoj.db.public-host:www.ccsoj.gov}")
+    @Value("${hoj.db.public-host:10.133.61.117}")
     private String host;
 
     @Value("${hoj.db.port:3306}")

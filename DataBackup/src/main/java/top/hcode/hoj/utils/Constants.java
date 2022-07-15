@@ -180,6 +180,8 @@ public class Constants {
         RP_RANK_CACHE("rp_rank_cache"),
         OI_RANK_CACHE("oi_rank_cache"),
 
+        CTF_RANK_CACHE("ctf_rank_cache"),
+
         GROUP_RANK_CACHE("group_rank_cache"),
 
         SUPER_ADMIN_UID_LIST_CACHE("super_admin_uid_list_case"),
