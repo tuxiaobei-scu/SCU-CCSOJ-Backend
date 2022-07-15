@@ -3,10 +3,6 @@ package top.hcode.hoj;
 import cn.hutool.core.util.ReUtil;
 
 import cn.hutool.crypto.SecureUtil;
-import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
-import com.alibaba.nacos.api.exception.NacosException;
-import com.alibaba.nacos.api.naming.NamingService;
-import com.alibaba.nacos.api.naming.pojo.Instance;
 
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
@@ -71,62 +67,62 @@ public class DataBackupApplicationTests {
         System.out.println(hoj123456);
     }
 
-    @Autowired
-    private NacosDiscoveryProperties discoveryProperties;
-
-    @Test
-    public void Test2() {
-        String clusterName = discoveryProperties.getClusterName();
-        System.out.println(clusterName);
-        // 获取该微服务的所有健康实例
-        // 获取服务发现的相关API
-        NamingService namingService = discoveryProperties.namingServiceInstance();
-        try {
-            // 获取该微服务的所有健康实例
-            List<Instance> instances = namingService.selectInstances("hoj-judge-server", true);
-            System.out.println(instances);
-        } catch (NacosException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Test
-    public void Test3() {
-        String serviceIp = IpUtils.getServiceIp();
-        System.out.println(serviceIp);
-    }
-
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Test
-    public void Test5() throws IOException {
-        Enumeration<NetworkInterface> ifaces = null;
-        try {
-            ifaces = NetworkInterface.getNetworkInterfaces();
-        } catch (SocketException e) {
-
-        }
-        String siteLocalAddress = null;
-        while (ifaces.hasMoreElements()) {
-            NetworkInterface iface = ifaces.nextElement();
-            Enumeration<InetAddress> addresses = iface.getInetAddresses();
-            while (addresses.hasMoreElements()) {
-                InetAddress addr = addresses.nextElement();
-                String hostAddress = addr.getHostAddress();
-                if (addr instanceof Inet4Address) {
-                    if (addr.isSiteLocalAddress()) {
-                        siteLocalAddress = hostAddress;
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-        System.out.println(siteLocalAddress == null ? "" : siteLocalAddress);
-    }
+//    @Autowired
+//    private NacosDiscoveryProperties discoveryProperties;
+//
+//    @Test
+//    public void Test2() {
+//        String clusterName = discoveryProperties.getClusterName();
+//        System.out.println(clusterName);
+//        // 获取该微服务的所有健康实例
+//        // 获取服务发现的相关API
+//        NamingService namingService = discoveryProperties.namingServiceInstance();
+//        try {
+//            // 获取该微服务的所有健康实例
+//            List<Instance> instances = namingService.selectInstances("hoj-judge-server", true);
+//            System.out.println(instances);
+//        } catch (NacosException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+//
+//    @Test
+//    public void Test3() {
+//        String serviceIp = IpUtils.getServiceIp();
+//        System.out.println(serviceIp);
+//    }
+//
+//
+//    @Autowired
+//    private RestTemplate restTemplate;
+//
+//    @Test
+//    public void Test5() throws IOException {
+//        Enumeration<NetworkInterface> ifaces = null;
+//        try {
+//            ifaces = NetworkInterface.getNetworkInterfaces();
+//        } catch (SocketException e) {
+//
+//        }
+//        String siteLocalAddress = null;
+//        while (ifaces.hasMoreElements()) {
+//            NetworkInterface iface = ifaces.nextElement();
+//            Enumeration<InetAddress> addresses = iface.getInetAddresses();
+//            while (addresses.hasMoreElements()) {
+//                InetAddress addr = addresses.nextElement();
+//                String hostAddress = addr.getHostAddress();
+//                if (addr instanceof Inet4Address) {
+//                    if (addr.isSiteLocalAddress()) {
+//                        siteLocalAddress = hostAddress;
+//                    } else {
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        System.out.println(siteLocalAddress == null ? "" : siteLocalAddress);
+//    }
 
     @Autowired
     private RedisUtils redisUtils;

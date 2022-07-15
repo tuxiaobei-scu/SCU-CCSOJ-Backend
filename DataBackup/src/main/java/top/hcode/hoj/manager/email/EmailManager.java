@@ -35,31 +35,31 @@ public class EmailManager {
     @Autowired
     private TemplateEngine templateEngine;
 
-    @Value("${hoj.web-config.base-url}")
+    ////@Value("${hoj.web-config.base-url}")
     public String ojAddr;
 
-    @Value("${hoj.web-config.name}")
+    ////@Value("${hoj.web-config.name}")
     public String ojName;
 
-    @Value("${hoj.web-config.short-name}")
+    ////@Value("${hoj.web-config.short-name}")
     public String ojShortName;
 
-    @Value("${hoj.mail.background-img}")
+    ////@Value("${hoj.mail.background-img}")
     public String ojEmailBg;
 
-    @Value("${hoj.mail.username}")
+    ////@Value("${hoj.mail.username}")
     public String ojEmailFrom;
 
-    @Value("${hoj.mail.password}")
+    ////@Value("${hoj.mail.password}")
     public String ojEmailPassword;
 
-    @Value("${hoj.mail.host}")
+    ////@Value("${hoj.mail.host}")
     public String ojEmailHost;
 
-    @Value("${hoj.mail.port}")
+    ////@Value("${hoj.mail.port}")
     public Integer ojEmailPort;
 
-    @Value("${hoj.mail.ssl}")
+    ////@Value("${hoj.mail.ssl}")
     public String ojEmailSsl;
 
     /**

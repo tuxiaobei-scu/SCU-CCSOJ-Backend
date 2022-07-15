@@ -17,19 +17,19 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class DruidConfiguration {
 
-    @Value("${hoj.db.username:root}")
+    //@Value("${hoj.db.username:root}")
     private String username;
 
-    @Value("${hoj.db.password:hoj123456}")
+    //@Value("${hoj.db.password:hoj123456}")
     private String password;
 
-    @Value("${hoj.db.public-host:10.133.61.117}")
+    //@Value("${hoj.db.public-host:1.13.23.80}")
     private String host;
 
-    @Value("${hoj.db.port:3306}")
+    //@Value("${hoj.db.port:3306}")
     private Integer port;
 
-    @Value("${hoj.db.name:hoj}")
+    //@Value("${hoj.db.name:hoj}")
     private String name;
 
     @Value("${spring.datasource.driver-class-name}")

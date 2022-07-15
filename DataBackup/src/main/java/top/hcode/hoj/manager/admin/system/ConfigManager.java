@@ -6,8 +6,6 @@ import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import cn.hutool.system.oshi.OshiUtil;
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.exception.NacosException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,29 +66,16 @@ public class ConfigManager {
     @Value("${spring.application.name}")
     private String currentServiceName;
 
-    @Value("${spring.cloud.nacos.url}")
-    private String NACOS_URL;
 
-    @Value("${spring.cloud.nacos.config.prefix}")
-    private String prefix;
 
     @Value("${spring.profiles.active}")
     private String active;
 
-    @Value("${spring.cloud.nacos.config.file-extension}")
-    private String fileExtension;
 
-    @Value("${spring.cloud.nacos.config.group}")
-    private String GROUP;
 
-    @Value("${spring.cloud.nacos.config.type}")
-    private String TYPE;
 
-    @Value("${spring.cloud.nacos.config.username}")
-    private String nacosUsername;
 
-    @Value("${spring.cloud.nacos.config.password}")
-    private String nacosPassword;
+
 
     /**
      * @MethodName getServiceInfo
@@ -103,7 +88,7 @@ public class ConfigManager {
     public JSONObject getServiceInfo() {
 
         JSONObject result = new JSONObject();
-
+        /*
         List<ServiceInstance> serviceInstances = discoveryClient.getInstances(currentServiceName);
 
         // 获取nacos中心配置所在的机器环境
@@ -125,11 +110,14 @@ public class ConfigManager {
         result.put("backupService", serviceInstances);
         result.put("backupPercentCpuLoad", percentCpuLoad);
         result.put("backupPercentMemoryLoad", percentMemoryLoad);
+        */
         return result;
     }
 
     public List<JSONObject> getJudgeServiceInfo() {
+
         List<JSONObject> serviceInfoList = new LinkedList<>();
+        /*
         List<ServiceInstance> serviceInstances = discoveryClient.getInstances(judgeServiceName);
         for (ServiceInstance serviceInstance : serviceInstances) {
             String result = restTemplate.getForObject(serviceInstance.getUri() + "/get-sys-config", String.class);
@@ -137,6 +125,8 @@ public class ConfigManager {
             jsonObject.put("service", serviceInstance);
             serviceInfoList.add(jsonObject);
         }
+
+         */
         return serviceInfoList;
     }
 
@@ -494,7 +484,7 @@ public class ConfigManager {
 
 
     public boolean sendNewConfigToNacos() {
-
+        /*
         Properties properties = new Properties();
         properties.put("serverAddr", NACOS_URL);
 
@@ -511,5 +501,7 @@ public class ConfigManager {
             log.error("通过nacos修改网站配置异常--------------->{}", e.getMessage());
         }
         return isOK;
+         */
+        return true;
     }
 }

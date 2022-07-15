@@ -70,7 +70,7 @@ public class GroupProblemManager {
     @Autowired
     private Dispatcher dispatcher;
 
-    @Value("${hoj.judge.token}")
+    @Value("${judger-token}")
     private String judgeToken;
 
     public IPage<ProblemVo> getProblemList(Integer limit, Integer currentPage, Long gid) throws StatusNotFoundException, StatusForbiddenException {

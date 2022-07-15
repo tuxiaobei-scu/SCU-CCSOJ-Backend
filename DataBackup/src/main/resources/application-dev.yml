@@ -1,17 +1,19 @@
 # redis配置
-redis-host: 10.133.61.117
+redis-host: 1.13.23.80
 redis-port: 6379
 redis-password: hoj123456
 
 # 本服务连接mysql的地址和端口号
-mysql-host: 10.133.61.117
-mysql-port: 3306
+mysql-host: 1.13.23.80
+mysql-port: 3307
 # mysql的公网地址和端口号
-mysql-public-host: 10.133.61.117
-mysql-public-port: 3306
+mysql-public-host: 1.13.23.80
+mysql-public-port: 3307
 mysql-username: root
 mysql-password: hoj123456
 mysql-name: hoj
+
+judger-token: OWZWWUWLHP
 
 # token密钥，default表示随机生成
 jwt-token-secret: default

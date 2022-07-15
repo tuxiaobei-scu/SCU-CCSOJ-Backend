@@ -214,29 +214,53 @@ public class Constants {
     public enum File {
 
 
-        USER_AVATAR_FOLDER("/hoj/file/avatar"),
+//        USER_AVATAR_FOLDER("/hoj/file/avatar"),
+//
+//        GROUP_AVATAR_FOLDER("/hoj/file/avatar/group"),
+//
+//        HOME_CAROUSEL_FOLDER("/hoj/file/carousel"),
+//
+//        MARKDOWN_FILE_FOLDER("/hoj/file/md"),
+//
+//        PROBLEM_FILE_FOLDER("/hoj/file/problem"),
+//
+//        CONTEST_TEXT_PRINT_FOLDER("/hoj/file/contest_print"),
+//
+//        IMG_API("/api/public/img/"),
+//
+//        FILE_API("/api/public/file/"),
+//
+//        TESTCASE_TMP_FOLDER("/hoj/file/zip"),
+//
+//        TESTCASE_BASE_FOLDER("/hoj/testcase"),
+//
+//        FILE_DOWNLOAD_TMP_FOLDER("/hoj/file/zip/download"),
+//
+//        CONTEST_AC_SUBMISSION_TMP_FOLDER("/hoj/file/zip/contest_ac");
 
-        GROUP_AVATAR_FOLDER("/hoj/file/avatar/group"),
+        USER_AVATAR_FOLDER("hoj/file/avatar"),
 
-        HOME_CAROUSEL_FOLDER("/hoj/file/carousel"),
+        GROUP_AVATAR_FOLDER("hoj/file/avatar/group"),
 
-        MARKDOWN_FILE_FOLDER("/hoj/file/md"),
+        HOME_CAROUSEL_FOLDER("hoj/file/carousel"),
 
-        PROBLEM_FILE_FOLDER("/hoj/file/problem"),
+        MARKDOWN_FILE_FOLDER("hoj/file/md"),
 
-        CONTEST_TEXT_PRINT_FOLDER("/hoj/file/contest_print"),
+        PROBLEM_FILE_FOLDER("hoj/file/problem"),
 
-        IMG_API("/api/public/img/"),
+        CONTEST_TEXT_PRINT_FOLDER("hoj/file/contest_print"),
 
-        FILE_API("/api/public/file/"),
+        IMG_API("api/public/img/"),
 
-        TESTCASE_TMP_FOLDER("/hoj/file/zip"),
+        FILE_API("api/public/file/"),
 
-        TESTCASE_BASE_FOLDER("/hoj/testcase"),
+        TESTCASE_TMP_FOLDER("D:/project/study2022/hoj/file/zip"),
 
-        FILE_DOWNLOAD_TMP_FOLDER("/hoj/file/zip/download"),
+        TESTCASE_BASE_FOLDER("hoj/testcase"),
 
-        CONTEST_AC_SUBMISSION_TMP_FOLDER("/hoj/file/zip/contest_ac");
+        FILE_DOWNLOAD_TMP_FOLDER("hoj/file/zip/download"),
+
+        CONTEST_AC_SUBMISSION_TMP_FOLDER("hoj/file/zip/contest_ac");
 
         private final String path;
 

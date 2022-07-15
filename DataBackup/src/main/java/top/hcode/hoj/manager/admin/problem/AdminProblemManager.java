@@ -50,7 +50,7 @@ public class AdminProblemManager {
     @Autowired
     private Dispatcher dispatcher;
 
-    @Value("${hoj.judge.token}")
+    @Value("${judger-token}")
     private String judgeToken;
 
     @Resource

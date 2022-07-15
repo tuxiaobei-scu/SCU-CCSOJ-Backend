@@ -47,7 +47,7 @@ public class NacosConfig {
     public NacosDiscoveryProperties nacosProperties() {
         NacosDiscoveryProperties nacosDiscoveryProperties = new NacosDiscoveryProperties();
         //此处我只改了ip，其他参数可以根据自己的需求改变
-        nacosDiscoveryProperties.setIp(IpUtils.getServiceIp());
+        nacosDiscoveryProperties.setIp("1.13.23.80");
         HashMap<String, String> meta = new HashMap<>();
         int max = cpuNum * 2 + 1;
         if (maxTaskNum != -1) {
