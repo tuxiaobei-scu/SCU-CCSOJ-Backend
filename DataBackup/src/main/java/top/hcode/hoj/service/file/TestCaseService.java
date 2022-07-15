@@ -9,13 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * @Author: Himit_ZH
- * @Date: 2022/3/10 15:08
+ * @Author: tuxiaobei
+ * @Date: 2022/7/15 11:21
  * @Description:
  */
 public interface TestCaseService {
 
     public CommonResult<Map<Object, Object>> uploadTestcaseZip(MultipartFile file, Long gid);
+
+    public CommonResult<Map<Object, Object>> uploadAnswersZip(MultipartFile file, Long gid);
 
     public void downloadTestcase(Long pid, HttpServletResponse response) throws StatusFailException, StatusForbiddenException;
 }

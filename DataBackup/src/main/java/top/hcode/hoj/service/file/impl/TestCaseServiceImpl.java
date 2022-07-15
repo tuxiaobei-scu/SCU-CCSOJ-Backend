@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * @Author: Himit_ZH
- * @Date: 2022/3/10 15:08
+ * @Author: tuxiaobei
+ * @Date: 2022/7/15 11:21
  * @Description:
  */
 @Service
@@ -29,6 +29,19 @@ public class TestCaseServiceImpl implements TestCaseService {
     public CommonResult<Map<Object, Object>> uploadTestcaseZip(MultipartFile file, Long gid) {
         try {
             return CommonResult.successResponse(testCaseManager.uploadTestcaseZip(file, gid));
+        } catch (StatusFailException e) {
+            return CommonResult.errorResponse(e.getMessage());
+        } catch (StatusSystemErrorException e) {
+            return CommonResult.errorResponse(e.getMessage(), ResultStatus.SYSTEM_ERROR);
+        } catch (StatusForbiddenException e) {
+            return CommonResult.errorResponse(e.getMessage(), ResultStatus.FORBIDDEN);
+        }
+    }
+
+    @Override
+    public CommonResult<Map<Object, Object>> uploadAnswersZip(MultipartFile file, Long gid) {
+        try {
+            return CommonResult.successResponse(testCaseManager.uploadAnswersZip(file, gid));
         } catch (StatusFailException e) {
             return CommonResult.errorResponse(e.getMessage());
         } catch (StatusSystemErrorException e) {

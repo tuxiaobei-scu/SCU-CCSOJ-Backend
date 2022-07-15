@@ -30,15 +30,12 @@ import top.hcode.hoj.utils.Constants;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @Author: Himit_ZH
- * @Date: 2022/3/10 14:57
+ * @Author: tuxiaobei
+ * @Date: 2021/10/5 11:21
  * @Description:
  */
 @Component
@@ -155,6 +152,50 @@ public class TestCaseManager {
                     return a.compareTo(b);
                 })
                 .collect(Collectors.toList());
+
+        return MapUtil.builder()
+                .put("fileList", fileList)
+                .put("fileListDir", fileDir)
+                .map();
+    }
+
+    public Map<Object, Object> uploadAnswersZip(MultipartFile file, Long gid) throws StatusFailException, StatusSystemErrorException, StatusForbiddenException {
+        Session session = SecurityUtils.getSubject().getSession();
+        UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
+
+        //获取文件后缀
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        if (!"zip".toUpperCase().contains(suffix.toUpperCase())) {
+            throw new StatusFailException("请上传zip格式的题目答案数据压缩包！");
+        }
+        String fileDirId = IdUtil.simpleUUID();
+        String fileDir = Constants.File.TESTCASE_TMP_FOLDER.getPath() + File.separator + fileDirId;
+        String filePath = fileDir + File.separator + file.getOriginalFilename();
+        // 文件夹不存在就新建
+        FileUtil.mkdir(fileDir);
+        try {
+            file.transferTo(new File(filePath));
+        } catch (IOException e) {
+            log.error("答案文件上传异常-------------->{}", e.getMessage());
+            throw new StatusSystemErrorException("服务器异常：答案数据上传失败！");
+        }
+
+        // 将压缩包压缩到指定文件夹
+        ZipUtil.unzip(filePath, fileDir);
+        // 删除zip文件
+        FileUtil.del(filePath);
+        // 检查文件是否存在
+        File testCaseFileList = new File(fileDir);
+        File[] files = testCaseFileList.listFiles();
+        if (files == null || files.length == 0) {
+            FileUtil.del(fileDir);
+            throw new StatusFailException("评测数据压缩包里文件不能为空！");
+        }
+
+        List<String> fileList = new ArrayList<>();
+        for (File tmp : files) {
+            fileList.add(tmp.getName());
+        }
 
         return MapUtil.builder()
                 .put("fileList", fileList)

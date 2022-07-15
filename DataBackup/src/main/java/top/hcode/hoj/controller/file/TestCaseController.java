@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
- * @Author: Himit_ZH
- * @Date: 2021/10/5 19:51
+ * @Author: tuxiaobei
+ * @Date: 2021/10/5 11:21
  * @Description:
  */
 @Controller
@@ -31,6 +31,13 @@ public class TestCaseController {
     public CommonResult<Map<Object, Object>> uploadTestcaseZip(@RequestParam("file") MultipartFile file,
                                                                @RequestParam(value = "gid", required = false) Long gid) {
         return testCaseService.uploadTestcaseZip(file, gid);
+    }
+
+    @PostMapping("/upload-answers-zip")
+    @ResponseBody
+    public CommonResult<Map<Object, Object>> uploadAnswersZip(@RequestParam("file") MultipartFile file,
+                                                               @RequestParam(value = "gid", required = false) Long gid) {
+        return testCaseService.uploadAnswersZip(file, gid);
     }
 
 
