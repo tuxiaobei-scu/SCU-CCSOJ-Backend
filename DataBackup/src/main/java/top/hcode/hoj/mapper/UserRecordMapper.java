@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import top.hcode.hoj.pojo.vo.ACMRankVo;
 import top.hcode.hoj.pojo.entity.user.UserRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import top.hcode.hoj.pojo.vo.CTFRankVo;
 import top.hcode.hoj.pojo.vo.OIRankVo;
 import top.hcode.hoj.pojo.vo.UserHomeVo;
 
@@ -29,6 +30,8 @@ public interface UserRecordMapper extends BaseMapper<UserRecord> {
     List<ACMRankVo> getRecent7ACRank();
 
     IPage<OIRankVo> getOIRankList(Page<OIRankVo> page, @Param("uidList") List<String> uidList);
+
+    IPage<CTFRankVo> getCTFRankList(Page<CTFRankVo> page, @Param("uidList") List<String> uidList);
 
     UserHomeVo getUserHomeInfo(@Param("uid") String uid, @Param("username") String username);
 
