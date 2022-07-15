@@ -1,15 +1,15 @@
 # 默认以下配置默认会读取环境变量的值
 
 # redis配置
-redis-host: www.ccsoj.gov
+redis-host: 10.133.61.117
 redis-port: ${REDIS_PORT:6379}
 redis-password: ${REDIS_PASSWORD:hoj123456}
 
 # 本服务连接mysql的地址和端口号
-mysql-host: www.ccsoj.gov
+mysql-host: 10.133.61.117
 mysql-port: ${MYSQL_PORT:3306}
 # mysql的公网地址和端口号
-mysql-public-host: www.ccsoj.gov
+mysql-public-host: 10.133.61.117
 mysql-public-port: ${MYSQL_PUBLIC_PORT:3306}
 mysql-username: ${MYSQL_USERNAME:root}
 mysql-password: ${MYSQL_ROOT_PASSWORD:hoj123456}

@@ -1,5 +1,5 @@
 # nacos配置
-nacos-url: ${NACOS_URL:www.ccsoj.gov:8848}
+nacos-url: ${NACOS_URL:10.133.61.117:8848}
 nacos-username: ${NACOS_USERNAME:root}
 nacos-password: ${NACOS_PASSWORD:hoj123456}
 

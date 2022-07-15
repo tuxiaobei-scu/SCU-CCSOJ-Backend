@@ -1,13 +1,13 @@
 # redis配置
-redis-host: www.ccsoj.gov
+redis-host: 10.133.61.117
 redis-port: 6379
 redis-password: hoj123456
 
 # 本服务连接mysql的地址和端口号
-mysql-host: www.ccsoj.gov
+mysql-host: 10.133.61.117
 mysql-port: 3306
 # mysql的公网地址和端口号
-mysql-public-host: www.ccsoj.gov
+mysql-public-host: 10.133.61.117
 mysql-public-port: 3306
 mysql-username: root
 mysql-password: hoj123456
