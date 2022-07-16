@@ -35,9 +35,21 @@ public class ContestProblemVo implements Serializable {
     @ApiModelProperty(value = "该题目在比赛中的气球颜色")
     private String color;
 
+    @ApiModelProperty(value = "初始分数")
+    private int initScore;
+
+    @ApiModelProperty(value = "衰减量")
+    private int decayLimit;
+
+    @ApiModelProperty(value = "最低分数")
+    private int minScore;
+
     @ApiModelProperty(value = "该题目的ac通过数")
     private Integer ac;
 
     @ApiModelProperty(value = "该题目的总提交数")
     private Integer total;
+
+    @ApiModelProperty(value = "该题目的当前分数")
+    private Integer curScore;
 }

@@ -47,6 +47,15 @@ public class ContestProblem implements Serializable {
     @ApiModelProperty(value = "气球的颜色")
     private String color;
 
+    @ApiModelProperty(value = "初始分数")
+    private int initScore;
+
+    @ApiModelProperty(value = "衰减量")
+    private int decayLimit;
+
+    @ApiModelProperty(value = "最低分数")
+    private int minScore;
+
     @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;
 

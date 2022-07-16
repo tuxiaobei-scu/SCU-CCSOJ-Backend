@@ -20,6 +20,7 @@ import top.hcode.hoj.crawler.problem.ProblemStrategy;
 import top.hcode.hoj.judge.Dispatcher;
 import top.hcode.hoj.pojo.dto.ProblemDto;
 import top.hcode.hoj.pojo.dto.CompileDTO;
+import top.hcode.hoj.pojo.entity.contest.ContestProblem;
 import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.problem.*;
 import top.hcode.hoj.pojo.vo.UserRolesVo;
@@ -259,6 +260,8 @@ public class AdminProblemManager {
             throw new StatusFailException("修改失败");
         }
     }
+
+
 
 
 }
