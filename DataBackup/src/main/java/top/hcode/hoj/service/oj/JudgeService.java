@@ -8,6 +8,7 @@ import top.hcode.hoj.pojo.dto.SubmitJudgeDto;
 import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.judge.JudgeCase;
 import top.hcode.hoj.pojo.vo.JudgeVo;
+import top.hcode.hoj.pojo.vo.RPChangeVo;
 import top.hcode.hoj.pojo.vo.SubmissionInfoVo;
 import top.hcode.hoj.pojo.vo.TestJudgeVo;
 
@@ -34,6 +35,15 @@ public interface JudgeService {
                                                      String searchUsername,
                                                      Boolean completeProblemID,
                                                      Long gid);
+
+    public CommonResult<IPage<RPChangeVo>> getRPChangeList(Integer limit,
+                                                           Integer currentPage,
+                                                           Boolean onlyMine,
+                                                           String searchuid,
+                                                           String RPChangeId,
+                                                           String username,
+                                                           Integer RPChange,
+                                                           String description);
 
     public CommonResult<Void> updateSubmission(Judge judge);
 

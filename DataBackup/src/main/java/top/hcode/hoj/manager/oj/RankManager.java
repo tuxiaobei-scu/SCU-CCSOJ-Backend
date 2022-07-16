@@ -85,7 +85,7 @@ public class RankManager {
         } else if (type.intValue() == Constants.Contest.TYPE_ALL.getCode()) {
             rankList = getRPRankList(limit, currentPage, uidList);
         } else{
-            throw new StatusFailException("排行榜类型代码不正确，请使用0(ACM),1(OI),2(CTF),3(CTF)！");
+            throw new StatusFailException("排行榜类型代码不正确，请使用0(ACM),1(OI),2(CTF),3(ALL)！");
         }
         return rankList;
     }

@@ -18,6 +18,7 @@ import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.problem.Problem;
 import top.hcode.hoj.pojo.vo.JudgeVo;
 import top.hcode.hoj.pojo.vo.ProblemCountVo;
+import top.hcode.hoj.pojo.vo.RPChangeVo;
 import top.hcode.hoj.utils.Constants;
 
 import java.util.Date;
@@ -76,6 +77,7 @@ public class JudgeEntityServiceImpl extends ServiceImpl<JudgeMapper, Judge> impl
         return commonJudgeList;
     }
 
+
     private String getProblemTitleByPid(Long pid, List<Problem> problemList, HashMap<Long, String> storeMap) {
         String title = storeMap.get(pid);
         if (title != null) {
@@ -109,6 +111,13 @@ public class JudgeEntityServiceImpl extends ServiceImpl<JudgeMapper, Judge> impl
 
         return judgeMapper.getContestJudgeList(page, displayId, cid, status, username, uid, beforeContestSubmit,
                 rule, startTime, sealRankTime, sealTimeUid, completeProblemID);
+    }
+
+    @Override
+    public IPage<RPChangeVo> getRPChangeList(Integer limit, Integer currentPage, String searchuid, String RPChangeId, String username, String uid, Integer RPChange, String description) {
+        Page<RPChangeVo> page = new Page<>(currentPage, limit);
+        IPage<RPChangeVo> RPChangeList = judgeMapper.getRPChangeList(page, searchuid, RPChangeId, username, uid, RPChange, description);
+        return RPChangeList;
     }
 
 

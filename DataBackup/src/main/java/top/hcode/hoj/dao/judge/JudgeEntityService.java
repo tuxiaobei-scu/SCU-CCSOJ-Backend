@@ -6,6 +6,7 @@ import top.hcode.hoj.pojo.entity.judge.Judge;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.hcode.hoj.pojo.vo.JudgeVo;
 import top.hcode.hoj.pojo.vo.ProblemCountVo;
+import top.hcode.hoj.pojo.vo.RPChangeVo;
 
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,14 @@ public interface JudgeEntityService extends IService<Judge> {
                                        Date sealRankTime,
                                        String sealTimeUid,
                                        Boolean completeProblemID);
-
+    public IPage<RPChangeVo> getRPChangeList(Integer limit,
+                                             Integer currentPage,
+                                             String searchuid,
+                                             String RPChangeId,
+                                             String username,
+                                             String uid,
+                                             Integer RPChange,
+                                             String description);
 
     void failToUseRedisPublishJudge(Long submitId, Long pid, Boolean isContest);
 

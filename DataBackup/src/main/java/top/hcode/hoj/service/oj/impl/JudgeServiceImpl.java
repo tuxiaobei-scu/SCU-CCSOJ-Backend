@@ -13,11 +13,13 @@ import top.hcode.hoj.pojo.dto.SubmitJudgeDto;
 import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.judge.JudgeCase;
 import top.hcode.hoj.pojo.vo.JudgeVo;
+import top.hcode.hoj.pojo.vo.RPChangeVo;
 import top.hcode.hoj.pojo.vo.SubmissionInfoVo;
 import top.hcode.hoj.pojo.vo.TestJudgeVo;
 import top.hcode.hoj.service.oj.JudgeService;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -107,6 +109,22 @@ public class JudgeServiceImpl implements JudgeService {
                     searchUsername,
                     completeProblemID,
                     gid));
+        } catch (StatusAccessDeniedException e) {
+            return CommonResult.errorResponse(e.getMessage(), ResultStatus.ACCESS_DENIED);
+        }
+    }
+
+    @Override
+    public CommonResult<IPage<RPChangeVo>> getRPChangeList(Integer limit, Integer currentPage, Boolean onlyMine, String searchuid, String RPChangeId, String username, Integer RPChange, String description) {
+        try {
+            return CommonResult.successResponse(judgeManager.getRPChangeList(limit,
+                    currentPage,
+                    onlyMine,
+                    searchuid,
+                    RPChangeId,
+                    username,
+                    RPChange,
+                    description));
         } catch (StatusAccessDeniedException e) {
             return CommonResult.errorResponse(e.getMessage(), ResultStatus.ACCESS_DENIED);
         }

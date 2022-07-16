@@ -485,6 +485,44 @@ public class JudgeManager {
     }
 
 
+    public IPage<RPChangeVo> getRPChangeList(Integer limit,
+                                          Integer currentPage,
+                                          Boolean onlyMine,
+                                          String searchuid,
+                                          String RPChangeId,
+                                          String username,
+                                          Integer RPChange,
+                                          String description) throws StatusAccessDeniedException {
+        // 页数，每页题数若为空，设置默认值
+        if (currentPage == null || currentPage < 1) currentPage = 1;
+        if (limit == null || limit < 1) limit = 30;
+
+        String uid = null;
+        // 只查看当前用户的提交
+        if (onlyMine) {
+            // 需要获取一下该token对应用户的数据（有token便能获取到）
+            Session session = SecurityUtils.getSubject().getSession();
+            UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
+
+            if (userRolesVo == null) {
+                throw new StatusAccessDeniedException("当前用户数据为空，请您重新登陆！");
+            }
+            uid = userRolesVo.getUid();
+        }
+        if (searchuid != null) {
+            searchuid = searchuid.trim();
+        }
+
+        return judgeEntityService.getRPChangeList(limit,
+                currentPage,
+                searchuid,
+                RPChangeId,
+                username,
+                uid,
+                RPChange,
+                description);
+    }
+
     /**
      * @MethodName checkJudgeResult
      * @Description 对提交列表状态为Pending和Judging的提交进行更新检查

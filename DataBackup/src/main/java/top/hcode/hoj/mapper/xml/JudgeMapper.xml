@@ -34,6 +34,19 @@
         order by j.submit_time DESC,j.submit_id DESC
     </select>
 
+    <select id="getRPChangeList" resultType="top.hcode.hoj.pojo.vo.RPChangeVo" useCache="true">
+        select rc.RPChangeId,rc.uid,rc.username,rc.RPChange,rc.RPChangeTime,rc.description
+        from RPChange rc
+        <where>
+            <if test="username!='' and username!=null">
+                AND j.username like concat('%',#{username},'%')
+            </if>
+            <if test="uid!=null and uid!=''">
+                AND j.uid = #{uid}
+            </if>
+        </where>
+        order by j.RPChangeTime DESC,j.RPChangeId DESC
+    </select>
 
     <select id="getContestJudgeList" resultType="top.hcode.hoj.pojo.vo.JudgeVo" useCache="true">
         select j.submit_id,j.submit_time,j.uid,j.username,j.uid,cp.display_id,cp.display_title as title,
