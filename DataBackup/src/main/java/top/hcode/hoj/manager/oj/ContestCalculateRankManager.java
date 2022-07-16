@@ -476,6 +476,8 @@ public class ContestCalculateRankManager {
                     }
                 }
             }
+            System.out.println("cur_AC: " + cur_AC);
+
 
             if (isHighestRankScore) {
                 if (score == null) {
@@ -483,12 +485,13 @@ public class ContestCalculateRankManager {
                     oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore() / cur_AC);
                     submissionInfo.put(contestRecord.getDisplayId(), contestRecord.getScore());
                 }
-            } else {
+            } else
+            {
                 if (contestRecord.getScore() != null) {
                     if (score != null) { // 为了避免同个提交时间的重复计算
-                        // oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() - score + contestRecord.getScore());
+                        oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() - score + contestRecord.getScore() / cur_AC);
                     } else {
-                        oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore());
+                        oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore() / cur_AC);
                     }
                 }
                 submissionInfo.put(contestRecord.getDisplayId(), contestRecord.getScore());
