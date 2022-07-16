@@ -466,15 +466,27 @@ public class ContestCalculateRankManager {
             // 记录总分
             HashMap<String, Integer> submissionInfo = oiContestRankVo.getSubmissionInfo();
             Integer score = submissionInfo.get(contestRecord.getDisplayId());
+
+            // TODO
+            int cur_AC = 0;
+            for (ContestRecordVo curcontestRecord : oiContestRecord) {
+                if (curcontestRecord.getDisplayId().equals(contestRecord.getDisplayId())) {
+                    if (curcontestRecord.getStatus().equals(Constants.Contest.RECORD_AC.getCode())) {
+                        cur_AC++;
+                    }
+                }
+            }
+
             if (isHighestRankScore) {
                 if (score == null) {
-                    oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore());
+
+                    oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore() / cur_AC);
                     submissionInfo.put(contestRecord.getDisplayId(), contestRecord.getScore());
                 }
             } else {
                 if (contestRecord.getScore() != null) {
                     if (score != null) { // 为了避免同个提交时间的重复计算
-                        oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() - score + contestRecord.getScore());
+                        // oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() - score + contestRecord.getScore());
                     } else {
                         oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore());
                     }
