@@ -467,7 +467,7 @@ public class ContestCalculateRankManager {
             HashMap<String, Integer> submissionInfo = oiContestRankVo.getSubmissionInfo();
             Integer score = submissionInfo.get(contestRecord.getDisplayId());
 
-            // TODO
+
             int cur_AC = 0;
             for (ContestRecordVo curcontestRecord : oiContestRecord) {
                 if (curcontestRecord.getDisplayId().equals(contestRecord.getDisplayId())) {
@@ -478,10 +478,12 @@ public class ContestCalculateRankManager {
             }
             System.out.println("cur_AC: " + cur_AC);
 
+            if (contest.getType() != Constants.Contest.TYPE_CTF.getCode()) {
+                cur_AC = 1; // 如果不是CTF比赛，则不动态积分。
+            }
 
             if (isHighestRankScore) {
                 if (score == null) {
-
                     oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore() / cur_AC);
                     submissionInfo.put(contestRecord.getDisplayId(), contestRecord.getScore());
                 }
