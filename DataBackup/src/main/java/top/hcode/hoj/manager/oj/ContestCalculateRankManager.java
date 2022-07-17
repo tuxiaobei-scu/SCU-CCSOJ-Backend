@@ -5,6 +5,12 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.models.auth.In;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import top.hcode.hoj.common.exception.StatusFailException;
+import top.hcode.hoj.common.exception.StatusForbiddenException;
+import top.hcode.hoj.dao.contest.ContestProblemEntityService;
 import top.hcode.hoj.dao.group.GroupMemberEntityService;
 import top.hcode.hoj.pojo.entity.group.GroupMember;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +18,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import top.hcode.hoj.pojo.entity.contest.Contest;
-import top.hcode.hoj.pojo.vo.ACMContestRankVo;
-import top.hcode.hoj.pojo.vo.ContestRecordVo;
-import top.hcode.hoj.pojo.vo.OIContestRankVo;
+import top.hcode.hoj.pojo.vo.*;
 import top.hcode.hoj.dao.contest.ContestRecordEntityService;
 import top.hcode.hoj.dao.user.UserInfoEntityService;
 import top.hcode.hoj.utils.Constants;
 import top.hcode.hoj.utils.RedisUtils;
+import top.hcode.hoj.validator.ContestValidator;
+import top.hcode.hoj.validator.GroupValidator;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -41,8 +47,18 @@ public class ContestCalculateRankManager {
     @Resource
     private ContestRecordEntityService contestRecordEntityService;
 
+    @Resource
+    private ContestProblemEntityService contestProblemEntityService;
+
+
     @Autowired
     private GroupMemberEntityService groupMemberEntityService;
+
+    @Autowired
+    private ContestValidator contestValidator;
+
+    @Autowired
+    private GroupValidator groupValidator;
 
     public List<ACMContestRankVo> calcACMRank(boolean isOpenSealRank,
                                               boolean removeStar,
@@ -411,6 +427,58 @@ public class ContestCalculateRankManager {
 
         HashMap<String, HashMap<String, Integer>> uidMapTime = new HashMap<>();
 
+        HashMap<Long, Integer> problemScore = new HashMap<>();
+
+        List<ContestProblemVo> contestProblemList;
+
+        // 获取当前登录的用户
+        Session session = SecurityUtils.getSubject().getSession();
+        UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
+
+
+        // 超级管理员或者该比赛的创建者，则为比赛管理者
+        boolean isRoot = SecurityUtils.getSubject().hasRole("root");
+
+        // 需要对该比赛做判断，是否处于开始或结束状态才可以获取题目列表，同时若是私有赛需要判断是否已注册（比赛管理员包括超级管理员可以直接获取）
+        try {
+            contestValidator.validateContestAuth(contest, userRolesVo, isRoot);
+        } catch (StatusFailException e) {
+            e.printStackTrace();
+        } catch (StatusForbiddenException e) {
+            e.printStackTrace();
+        }
+
+        boolean isAdmin = isRoot
+                || contest.getAuthor().equals(userRolesVo.getUsername())
+                || (contest.getIsGroup() && groupValidator.isGroupRoot(userRolesVo.getUid(), contest.getGid()));
+
+        List<String> groupRootUidList = null;
+        if (contest.getIsGroup() && contest.getGid() != null) {
+            groupRootUidList = groupMemberEntityService.getGroupRootUidList(contest.getGid());
+        }
+
+        if (contestValidator.isSealRank(userRolesVo.getUid(), contest, true, isRoot)) {
+            contestProblemList = contestProblemEntityService.getContestProblemList(contest.getId(),
+                    contest.getStartTime(),
+                    contest.getEndTime(),
+                    contest.getSealRankTime(),
+                    isAdmin,
+                    contest.getAuthor(),
+                    groupRootUidList);
+        } else {
+            contestProblemList = contestProblemEntityService.getContestProblemList(contest.getId(),
+                    contest.getStartTime(),
+                    contest.getEndTime(),
+                    null,
+                    isAdmin,
+                    contest.getAuthor(),
+                    groupRootUidList);
+        }
+
+        for (ContestProblemVo p : contestProblemList) {
+            problemScore.put(p.getPid(), p.getCurScore());
+        }
+
         boolean isHighestRankScore = Constants.Contest.OI_RANK_HIGHEST_SCORE.getName().equals(contest.getOiRankScoreType());
 
         int index = 0;
@@ -468,35 +536,36 @@ public class ContestCalculateRankManager {
             Integer score = submissionInfo.get(contestRecord.getDisplayId());
 
 
-            int cur_AC = 0;
-            for (ContestRecordVo curcontestRecord : oiContestRecord) {
-                if (curcontestRecord.getDisplayId().equals(contestRecord.getDisplayId())) {
-                    if (curcontestRecord.getStatus().equals(Constants.Contest.RECORD_AC.getCode())) {
-                        cur_AC++;
-                    }
-                }
-            }
-            System.out.println("cur_AC: " + cur_AC);
-
-            if (contest.getType() != Constants.Contest.TYPE_CTF.getCode()) {
-                cur_AC = 1; // 如果不是CTF比赛，则不动态积分。
-            }
-
+//            int cur_AC = 0;
+//            int total_score = 0;
+//            for (ContestRecordVo curcontestRecord : oiContestRecord) {
+//                if (curcontestRecord.getDisplayId().equals(contestRecord.getDisplayId())) {
+//                    if (curcontestRecord.getStatus().equals(Constants.Contest.RECORD_AC.getCode())) {
+//                        total_score += curcontestRecord.getScore();
+//                    }
+//                }
+//            }
+//            System.out.println("cur_AC: " + cur_AC);
+//            cur_AC = 1;
+//            if (contest.getType() != Constants.Contest.TYPE_CTF.getCode()) {
+//                cur_AC = 1; // 如果不是CTF比赛，则不动态积分。
+//            }
+            int cur_score = problemScore.get(contestRecord.getPid());
             if (isHighestRankScore) {
                 if (score == null) {
-                    oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore() / cur_AC);
-                    submissionInfo.put(contestRecord.getDisplayId(), contestRecord.getScore());
+                    oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore());
+                    submissionInfo.put(contestRecord.getDisplayId(), (int) Math.ceil((contestRecord.getScore() / 100.0) * cur_score));
                 }
             } else
             {
                 if (contestRecord.getScore() != null) {
                     if (score != null) { // 为了避免同个提交时间的重复计算
-                        oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() - score + contestRecord.getScore() / cur_AC);
+                        oiContestRankVo.setTotalScore((int) Math.ceil(oiContestRankVo.getTotalScore() - score + (contestRecord.getScore() / 100.0) * cur_score));
                     } else {
-                        oiContestRankVo.setTotalScore(oiContestRankVo.getTotalScore() + contestRecord.getScore() / cur_AC);
+                        oiContestRankVo.setTotalScore((int) Math.ceil(oiContestRankVo.getTotalScore() + (contestRecord.getScore() / 100.0) * cur_score));
                     }
                 }
-                submissionInfo.put(contestRecord.getDisplayId(), contestRecord.getScore());
+                submissionInfo.put(contestRecord.getDisplayId(), (int) Math.ceil(oiContestRankVo.getTotalScore() + (contestRecord.getScore() / 100.0) * cur_score));
             }
 
         }
