@@ -64,4 +64,7 @@ public class UserInfoVo {
     @ApiModelProperty(value = "角色列表")
     private List<String> roleList;
 
+    @ApiModelProperty(value = "rp")
+    private int rp;
+
 }

@@ -99,5 +99,6 @@ public class UserInfo implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
 
-
+    @ApiModelProperty(value = "rp")
+    private int rp;
 }

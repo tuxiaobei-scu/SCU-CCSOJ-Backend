@@ -1,15 +1,21 @@
 package top.hcode.hoj.judge;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.hcode.hoj.common.exception.SystemError;
 import top.hcode.hoj.dao.ContestRecordEntityService;
 import top.hcode.hoj.dao.UserAcproblemEntityService;
+import top.hcode.hoj.dao.user.UserInfoEntityService;
 import top.hcode.hoj.pojo.dto.TestJudgeReq;
 import top.hcode.hoj.pojo.dto.TestJudgeRes;
 import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.problem.Problem;
+import top.hcode.hoj.pojo.entity.user.RpChange;
 import top.hcode.hoj.pojo.entity.user.UserAcproblem;
+import top.hcode.hoj.pojo.entity.user.UserInfo;
+import top.hcode.hoj.pojo.vo.UserRolesVo;
 import top.hcode.hoj.util.Constants;
 
 import java.util.HashMap;
@@ -24,12 +30,17 @@ public class JudgeContext {
 
     @Autowired
     private JudgeStrategy judgeStrategy;
+    @Autowired
+    private UserInfoEntityService userInfoEntityService;
 
     @Autowired
     private UserAcproblemEntityService userAcproblemEntityService;
 
     @Autowired
     private ContestRecordEntityService contestRecordEntityService;
+
+    @Autowired
+    private top.hcode.hoj.dao.user.RpChangeEntityService RpChangeEntityService;
 
     public Judge Judge(Problem problem, Judge judge) {
 
@@ -100,15 +111,42 @@ public class JudgeContext {
                                  Integer score,
                                  Integer useTime) {
 
+
+
         if (cid == 0) { // 非比赛提交
             // 如果是AC,就更新user_acproblem表,
             if (status.intValue() == Constants.Judge.STATUS_ACCEPTED.getStatus() && gid == null) {
+                
                 userAcproblemEntityService.saveOrUpdate(new UserAcproblem()
                         .setPid(pid)
                         .setUid(uid)
                         .setSubmitId(submitId)
                 );
+
+                Session session = SecurityUtils.getSubject().getSession();
+                UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
+                RpChange rpchange=new RpChange();
+                UserInfo userinfo=new UserInfo();
+                userinfo.setUuid(userRolesVo.getUid())
+                        .setCfUsername(userRolesVo.getCfUsername())
+                        .setRealname(userRolesVo.getRealname())
+                        .setNickname(userRolesVo.getNickname())
+                        .setSignature(userRolesVo.getSignature())
+                        .setBlog(userRolesVo.getBlog())
+                        .setGender(userRolesVo.getGender())
+                        .setEmail(userRolesVo.getEmail())
+                        .setGithub(userRolesVo.getGithub())
+                        .setSchool(userRolesVo.getSchool())
+                        .setNumber(userRolesVo.getNumber())
+                        .setRp(userRolesVo.getRp()+10);
+                userInfoEntityService.updateById(userinfo);
+                rpchange.setUid(userRolesVo.getUid())
+                        .setDescription("AC了"+pid)
+                        .setRpChange(10)
+                        .setUsername(userRolesVo.getUsername());
+                RpChangeEntityService.saveOrUpdate(rpchange);
             }
+
 
         } else { //如果是比赛提交
             contestRecordEntityService.UpdateContestRecord(score, status, submitId, useTime);

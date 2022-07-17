@@ -1,7 +1,5 @@
 package top.hcode.hoj.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,9 +13,9 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value="返回的判题信息", description="")
-public class RPChangeVo {
+public class RpChangeVo {
     @ApiModelProperty(value = "改变id")
-    private String RPChangeId;
+    private String Id;
 
     @ApiModelProperty(value = "用户id")
     private String uid;
@@ -26,10 +24,13 @@ public class RPChangeVo {
     private String username;
 
     @ApiModelProperty(value = "RP改变量")
-    private Integer RPChange;
+    private Integer rpChange;
 
     @ApiModelProperty(value = "结果码具体参考文档")
-    private Date RPChangeTime;
+    private Date gmtCreate;
+
+    @ApiModelProperty(value = "结果码具体参考文档")
+    private Date gmtModified;
 
     @ApiModelProperty(value = "描述")
     private String description;

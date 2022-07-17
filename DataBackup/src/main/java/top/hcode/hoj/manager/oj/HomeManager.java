@@ -3,14 +3,15 @@ package top.hcode.hoj.manager.oj;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.UnicodeUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import top.hcode.hoj.dao.user.UserInfoEntityService;
 import top.hcode.hoj.pojo.entity.common.File;
-import top.hcode.hoj.pojo.vo.ACMRankVo;
-import top.hcode.hoj.pojo.vo.RPRankVo;
-import top.hcode.hoj.pojo.vo.AnnouncementVo;
-import top.hcode.hoj.pojo.vo.ConfigVo;
-import top.hcode.hoj.pojo.vo.ContestVo;
+import top.hcode.hoj.pojo.entity.user.RpChange;
+import top.hcode.hoj.pojo.entity.user.UserInfo;
+import top.hcode.hoj.pojo.vo.*;
 import top.hcode.hoj.dao.common.AnnouncementEntityService;
 import top.hcode.hoj.dao.common.FileEntityService;
 import top.hcode.hoj.dao.contest.ContestEntityService;
@@ -50,6 +51,12 @@ public class HomeManager {
 
     @Autowired
     private FileEntityService fileEntityService;
+
+    @Autowired
+    private UserInfoEntityService userInfoEntityService;
+
+    @Autowired
+    private top.hcode.hoj.dao.user.RpChangeEntityService RpChangeEntityService;
 
     /**
      * @MethodName getRecentContest

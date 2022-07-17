@@ -18,7 +18,7 @@ import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.problem.Problem;
 import top.hcode.hoj.pojo.vo.JudgeVo;
 import top.hcode.hoj.pojo.vo.ProblemCountVo;
-import top.hcode.hoj.pojo.vo.RPChangeVo;
+import top.hcode.hoj.pojo.vo.RpChangeVo;
 import top.hcode.hoj.utils.Constants;
 
 import java.util.Date;
@@ -114,10 +114,10 @@ public class JudgeEntityServiceImpl extends ServiceImpl<JudgeMapper, Judge> impl
     }
 
     @Override
-    public IPage<RPChangeVo> getRPChangeList(Integer limit, Integer currentPage, String searchuid, String RPChangeId, String username, String uid, Integer RPChange, String description) {
-        Page<RPChangeVo> page = new Page<>(currentPage, limit);
-        IPage<RPChangeVo> RPChangeList = judgeMapper.getRPChangeList(page, searchuid, RPChangeId, username, uid, RPChange, description);
-        return RPChangeList;
+    public IPage<RpChangeVo> getRpChangeList(Integer limit, Integer currentPage, String searchuid, String Id, String username, String uid, Integer rpChange, String description) {
+        Page<RpChangeVo> page = new Page<>(currentPage, limit);
+        IPage<RpChangeVo> RpChangeList = judgeMapper.getRpChangeList(page, searchuid, Id, username, uid, rpChange, description);
+        return RpChangeList;
     }
 
 

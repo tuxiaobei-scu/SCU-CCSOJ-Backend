@@ -13,7 +13,7 @@ import top.hcode.hoj.pojo.dto.SubmitJudgeDto;
 import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.judge.JudgeCase;
 import top.hcode.hoj.pojo.vo.JudgeVo;
-import top.hcode.hoj.pojo.vo.RPChangeVo;
+import top.hcode.hoj.pojo.vo.RpChangeVo;
 import top.hcode.hoj.pojo.vo.SubmissionInfoVo;
 import top.hcode.hoj.pojo.vo.TestJudgeVo;
 import top.hcode.hoj.service.oj.JudgeService;
@@ -61,16 +61,16 @@ public class JudgeController {
     }
 
     @GetMapping("/get-rpchange-list")
-    public CommonResult<IPage<RPChangeVo>> getRPChangeList(@RequestParam(value = "limit", required = false) Integer limit,
+    public CommonResult<IPage<RpChangeVo>> getRpChangeList(@RequestParam(value = "limit", required = false) Integer limit,
                                                            @RequestParam(value = "currentPage", required = false) Integer currentPage,
                                                            @RequestParam(value = "onlyMine", required = false) Boolean onlyMine,
                                                            @RequestParam(value = "searchUsername", required = false) String searchUsername,
-                                                           @RequestParam(value = "RPChangeId", required = false) String RPChangeId,
+                                                           @RequestParam(value = "id", required = false) String id,
                                                            @RequestParam(value = "username", required = false) String username,
-                                                           @RequestParam(value = "RPChange", required = false) Integer RPChange,
+                                                           @RequestParam(value = "rpChange", required = false) Integer rpChange,
                                                            @RequestParam(value = "description", required = false) String description) {
 
-        return judgeService.getRPChangeList(limit, currentPage, onlyMine, searchUsername, RPChangeId, username, RPChange, description);
+        return judgeService.getRpChangeList(limit, currentPage, onlyMine, searchUsername, id, username, rpChange, description);
     }
 
     /**

@@ -9,7 +9,7 @@ import top.hcode.hoj.pojo.entity.judge.Judge;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.hcode.hoj.pojo.vo.JudgeVo;
 import top.hcode.hoj.pojo.vo.ProblemCountVo;
-import top.hcode.hoj.pojo.vo.RPChangeVo;
+import top.hcode.hoj.pojo.vo.RpChangeVo;
 
 import java.util.Date;
 import java.util.List;
@@ -33,12 +33,12 @@ public interface JudgeMapper extends BaseMapper<Judge> {
                                       @Param("uid") String uid,
                                       @Param("completeProblemID") Boolean completeProblemID,
                                       @Param("gid") Long gid);
-    IPage<RPChangeVo> getRPChangeList(Page<RPChangeVo> page,
+    IPage<RpChangeVo> getRpChangeList(Page<RpChangeVo> page,
                                       @Param("searchPid") String searchPid,
-                                      @Param("RPChangeId") String RPChangeId,
+                                      @Param("Id") String Id,
                                       @Param("uid") String uid,
                                       @Param("username") String username,
-                                      @Param("RPChange") Integer RPChange,
+                                      @Param("RpChange") Integer rpChange,
                                       @Param("description") String description);
 
 

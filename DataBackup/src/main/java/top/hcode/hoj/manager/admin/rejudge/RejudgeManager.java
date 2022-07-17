@@ -2,6 +2,9 @@ package top.hcode.hoj.manager.admin.rejudge;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import top.hcode.hoj.common.exception.StatusFailException;
@@ -9,14 +12,19 @@ import top.hcode.hoj.dao.contest.ContestRecordEntityService;
 import top.hcode.hoj.dao.judge.JudgeCaseEntityService;
 import top.hcode.hoj.dao.judge.JudgeEntityService;
 import top.hcode.hoj.dao.problem.ProblemEntityService;
+import top.hcode.hoj.dao.user.RpChangeEntityService;
 import top.hcode.hoj.dao.user.UserAcproblemEntityService;
+import top.hcode.hoj.dao.user.UserInfoEntityService;
 import top.hcode.hoj.judge.remote.RemoteJudgeDispatcher;
 import top.hcode.hoj.judge.self.JudgeDispatcher;
 import top.hcode.hoj.pojo.entity.contest.ContestRecord;
 import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.judge.JudgeCase;
 import top.hcode.hoj.pojo.entity.problem.Problem;
+import top.hcode.hoj.pojo.entity.user.RpChange;
 import top.hcode.hoj.pojo.entity.user.UserAcproblem;
+import top.hcode.hoj.pojo.entity.user.UserInfo;
+import top.hcode.hoj.pojo.vo.UserRolesVo;
 import top.hcode.hoj.utils.Constants;
 
 import javax.annotation.Resource;
@@ -53,8 +61,16 @@ public class RejudgeManager {
     @Resource
     private RemoteJudgeDispatcher remoteJudgeDispatcher;
 
+    @Autowired
+    private UserInfoEntityService userInfoEntityService;
+
+    @Autowired
+    private top.hcode.hoj.dao.user.RpChangeEntityService RpChangeEntityService;
+
     @Transactional(rollbackFor = Exception.class)
     public Judge rejudge(Long submitId) throws StatusFailException {
+        Session session = SecurityUtils.getSubject().getSession();
+        UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
         Judge judge = judgeEntityService.getById(submitId);
 
         boolean isContestSubmission = judge.getCid() != 0;
@@ -68,6 +84,28 @@ public class RejudgeManager {
                 QueryWrapper<UserAcproblem> userAcproblemQueryWrapper = new QueryWrapper<>();
                 userAcproblemQueryWrapper.eq("submit_id", judge.getSubmitId());
                 userAcproblemEntityService.remove(userAcproblemQueryWrapper);
+            }
+            else {
+                RpChange rpchange=new RpChange();
+                UserInfo userinfo=new UserInfo();
+                userinfo.setUuid(userRolesVo.getUid())
+                        .setCfUsername(userRolesVo.getCfUsername())
+                        .setRealname(userRolesVo.getRealname())
+                        .setNickname(userRolesVo.getNickname())
+                        .setSignature(userRolesVo.getSignature())
+                        .setBlog(userRolesVo.getBlog())
+                        .setGender(userRolesVo.getGender())
+                        .setEmail(userRolesVo.getEmail())
+                        .setGithub(userRolesVo.getGithub())
+                        .setSchool(userRolesVo.getSchool())
+                        .setNumber(userRolesVo.getNumber())
+                        .setRp(userRolesVo.getRp()+10);
+                userInfoEntityService.updateById(userinfo);
+                rpchange.setUid(userRolesVo.getUid())
+                        .setDescription("AC了"+judge.getPid())
+                        .setRpChange(10)
+                        .setUsername(userRolesVo.getUsername());
+                RpChangeEntityService.saveOrUpdate(rpchange);
             }
         } else {
             // 将对应比赛记录设置成默认值

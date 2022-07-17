@@ -34,9 +34,9 @@
         order by j.submit_time DESC,j.submit_id DESC
     </select>
 
-    <select id="getRPChangeList" resultType="top.hcode.hoj.pojo.vo.RPChangeVo" useCache="true">
-        select rc.RPChangeId,rc.uid,rc.username,rc.RPChange,rc.RPChangeTime,rc.description
-        from RPChange rc
+    <select id="getRpChangeList" resultType="top.hcode.hoj.pojo.vo.RpChangeVo" useCache="true">
+        select rc.id,rc.uid,rc.username,rc.rp_change,rc.gmt_create,rc.description
+        from rp_change rc
         <where>
             <if test="username!='' and username!=null">
                 AND rc.username like concat('%',#{username},'%')
@@ -45,7 +45,7 @@
                 AND rc.uid = #{uid}
             </if>
         </where>
-        order by rc.RPChangeTime DESC,rc.RPChangeId DESC
+        order by rc.gmt_create DESC,rc.id DESC
     </select>
 
     <select id="getContestJudgeList" resultType="top.hcode.hoj.pojo.vo.JudgeVo" useCache="true">
