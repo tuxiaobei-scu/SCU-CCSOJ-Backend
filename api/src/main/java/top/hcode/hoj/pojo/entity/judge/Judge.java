@@ -73,6 +73,12 @@ public class Judge implements Serializable {
     @ApiModelProperty(value = "代码")
     private String code;
 
+    @ApiModelProperty(value = "是否为提交答案题")
+    private Integer submitAns;
+
+    @ApiModelProperty(value = "提交答案数据")
+    private String submitAnsData;
+
     @ApiModelProperty(value = "代码语言")
     private String language;
 

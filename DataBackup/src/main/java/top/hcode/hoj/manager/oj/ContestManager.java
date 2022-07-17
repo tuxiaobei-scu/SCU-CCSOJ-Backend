@@ -357,7 +357,7 @@ public class ContestManager {
         }
 
         List<String> file_names = new ArrayList<>();
-        if (problem.getJudgeMode().equals("Submit_Answer")) {
+        if (problem.getType() == 2) {
             QueryWrapper<ProblemCase> problemCaseQueryWrapper = new QueryWrapper<>();
             problemCaseQueryWrapper.eq("pid", problem.getId()).eq("status", 0);
             if (problem.getIsUploadCase()) {
@@ -369,8 +369,9 @@ public class ContestManager {
                 if (problem.getIsUploadCase()) {
                     file_names.add(data.getOutput());
                 } else {
-                    String name = i + ".out";
+                    String name = "flag" + i;
                     file_names.add(name);
+                    i += 1;
                 }
             }
         }

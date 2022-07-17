@@ -42,6 +42,9 @@ public class JudgeVo {
     @ApiModelProperty(value = "结果码具体参考文档")
     private Date submitTime;
 
+    @ApiModelProperty(value = "是否为提交答案题")
+    private Integer submitAns;
+
     @ApiModelProperty(value = "结果码具体参考文档")
     private Integer status;
 

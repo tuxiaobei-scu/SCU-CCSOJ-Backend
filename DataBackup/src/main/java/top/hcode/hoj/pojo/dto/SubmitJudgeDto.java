@@ -22,6 +22,10 @@ public class SubmitJudgeDto {
     @NotBlank(message = "提交的代码不能为空")
     private String code;
 
+    private Integer submitAns;
+
+    private String submitAnsData;
+
     @NotBlank(message = "提交的比赛id所属不能为空，若并非比赛提交，请设置为0")
     private Long cid;
 

@@ -136,6 +136,8 @@ public class JudgeManager {
         // 将提交先写入数据库，准备调用判题服务器
         Judge judge = new Judge();
         judge.setShare(false) // 默认设置代码为单独自己可见
+                .setSubmitAns(judgeDto.getSubmitAns())
+                .setSubmitAnsData(judgeDto.getSubmitAnsData())
                 .setCode(judgeDto.getCode())
                 .setCid(judgeDto.getCid())
                 .setGid(judgeDto.getGid())
