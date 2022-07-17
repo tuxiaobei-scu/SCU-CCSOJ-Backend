@@ -47,7 +47,7 @@ public interface JudgeEntityService extends IService<Judge> {
                                        Boolean completeProblemID);
     public IPage<RPChangeVo> getRPChangeList(Integer limit,
                                              Integer currentPage,
-                                             String searchuid,
+                                             String searchUsername,
                                              String RPChangeId,
                                              String username,
                                              String uid,

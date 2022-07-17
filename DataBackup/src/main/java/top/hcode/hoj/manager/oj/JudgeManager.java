@@ -488,7 +488,7 @@ public class JudgeManager {
     public IPage<RPChangeVo> getRPChangeList(Integer limit,
                                           Integer currentPage,
                                           Boolean onlyMine,
-                                          String searchuid,
+                                          String searchUsername,
                                           String RPChangeId,
                                           String username,
                                           Integer RPChange,
@@ -509,13 +509,13 @@ public class JudgeManager {
             }
             uid = userRolesVo.getUid();
         }
-        if (searchuid != null) {
-            searchuid = searchuid.trim();
+        if (searchUsername != null) {
+            searchUsername = searchUsername.trim();
         }
 
         return judgeEntityService.getRPChangeList(limit,
                 currentPage,
-                searchuid,
+                searchUsername,
                 RPChangeId,
                 username,
                 uid,

@@ -39,7 +39,7 @@ public interface JudgeService {
     public CommonResult<IPage<RPChangeVo>> getRPChangeList(Integer limit,
                                                            Integer currentPage,
                                                            Boolean onlyMine,
-                                                           String searchuid,
+                                                           String searchUsername,
                                                            String RPChangeId,
                                                            String username,
                                                            Integer RPChange,

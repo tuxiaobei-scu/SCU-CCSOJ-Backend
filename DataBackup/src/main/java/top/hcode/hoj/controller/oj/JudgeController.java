@@ -64,13 +64,13 @@ public class JudgeController {
     public CommonResult<IPage<RPChangeVo>> getRPChangeList(@RequestParam(value = "limit", required = false) Integer limit,
                                                            @RequestParam(value = "currentPage", required = false) Integer currentPage,
                                                            @RequestParam(value = "onlyMine", required = false) Boolean onlyMine,
-                                                           @RequestParam(value = "searchuid", required = false) String searchuid,
+                                                           @RequestParam(value = "searchUsername", required = false) String searchUsername,
                                                            @RequestParam(value = "RPChangeId", required = false) String RPChangeId,
                                                            @RequestParam(value = "username", required = false) String username,
                                                            @RequestParam(value = "RPChange", required = false) Integer RPChange,
                                                            @RequestParam(value = "description", required = false) String description) {
 
-        return judgeService.getRPChangeList(limit, currentPage, onlyMine, searchuid, RPChangeId, username, RPChange, description);
+        return judgeService.getRPChangeList(limit, currentPage, onlyMine, searchUsername, RPChangeId, username, RPChange, description);
     }
 
     /**

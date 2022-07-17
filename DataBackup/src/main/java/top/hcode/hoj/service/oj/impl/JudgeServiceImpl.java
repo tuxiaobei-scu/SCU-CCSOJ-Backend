@@ -19,7 +19,6 @@ import top.hcode.hoj.pojo.vo.TestJudgeVo;
 import top.hcode.hoj.service.oj.JudgeService;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,12 +114,12 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
     @Override
-    public CommonResult<IPage<RPChangeVo>> getRPChangeList(Integer limit, Integer currentPage, Boolean onlyMine, String searchuid, String RPChangeId, String username, Integer RPChange, String description) {
+    public CommonResult<IPage<RPChangeVo>> getRPChangeList(Integer limit, Integer currentPage, Boolean onlyMine,String searchUsername, String RPChangeId, String username, Integer RPChange, String description) {
         try {
             return CommonResult.successResponse(judgeManager.getRPChangeList(limit,
                     currentPage,
                     onlyMine,
-                    searchuid,
+                    searchUsername,
                     RPChangeId,
                     username,
                     RPChange,
@@ -129,6 +128,7 @@ public class JudgeServiceImpl implements JudgeService {
             return CommonResult.errorResponse(e.getMessage(), ResultStatus.ACCESS_DENIED);
         }
     }
+
 
     @Override
     public CommonResult<Void> updateSubmission(Judge judge) {

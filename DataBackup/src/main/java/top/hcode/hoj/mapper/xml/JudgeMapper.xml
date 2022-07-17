@@ -39,13 +39,13 @@
         from RPChange rc
         <where>
             <if test="username!='' and username!=null">
-                AND j.username like concat('%',#{username},'%')
+                AND rc.username like concat('%',#{username},'%')
             </if>
             <if test="uid!=null and uid!=''">
-                AND j.uid = #{uid}
+                AND rc.uid = #{uid}
             </if>
         </where>
-        order by j.RPChangeTime DESC,j.RPChangeId DESC
+        order by rc.RPChangeTime DESC,rc.RPChangeId DESC
     </select>
 
     <select id="getContestJudgeList" resultType="top.hcode.hoj.pojo.vo.JudgeVo" useCache="true">
