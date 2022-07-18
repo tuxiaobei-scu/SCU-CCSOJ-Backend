@@ -53,6 +53,9 @@ public class AccountManager {
     private UserAcproblemEntityService userAcproblemEntityService;
 
     @Autowired
+    private RpChangeEntityService rpChangeEntityService;
+
+    @Autowired
     private ProblemEntityService problemEntityService;
 
     @Autowired
@@ -410,4 +413,32 @@ public class AccountManager {
         }
 
     }
+
+    public Integer changeUserRP(String uid, String username, Integer change, String description) throws StatusFailException {
+        System.out.println("uid " + uid);
+        System.out.println("username " + username);
+        UserHomeVo userHomeVo = getUserHomeInfo(uid, username);
+        Integer cur_rp = userHomeVo.getRp();
+        System.out.println("cur_rp" + cur_rp);
+        cur_rp += change;
+        System.out.println("cur_rp" + cur_rp);
+        if (cur_rp < 0) {
+            return -1;
+        }
+        RpChange rpchange = new RpChange();
+        rpchange.setUid(userHomeVo.getUid())
+                .setDescription(description)
+                .setRpChange(change)
+                .setRp(cur_rp)
+                .setUsername(userHomeVo.getUsername());
+        rpChangeEntityService.saveOrUpdate(rpchange);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUuid(userHomeVo.getUid())
+                .setRp(cur_rp);
+        if (!userInfoEntityService.updateById(userInfo)) {
+            throw new StatusFailException("更新RP失败！");
+        }
+        return cur_rp;
+    }
+
 }

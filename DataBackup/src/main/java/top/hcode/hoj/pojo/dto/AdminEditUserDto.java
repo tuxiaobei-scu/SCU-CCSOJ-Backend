@@ -1,5 +1,6 @@
 package top.hcode.hoj.pojo.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -33,4 +34,8 @@ public class AdminEditUserDto {
     private String titleName;
 
     private String titleColor;
+
+    @ApiModelProperty(value = "RP值")
+    private Integer rp;
+
 }

@@ -34,6 +34,9 @@ public class CTFRankVo implements Serializable {
     @ApiModelProperty(value = "头衔、称号的颜色")
     private String titleColor;
 
+    @ApiModelProperty(value = "RP值")
+    private Integer rp;
+
     @ApiModelProperty(value = "CTF得分列表")
     private Integer score;
 

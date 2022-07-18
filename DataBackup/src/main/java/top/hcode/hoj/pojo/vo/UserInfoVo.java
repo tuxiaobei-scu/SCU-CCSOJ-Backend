@@ -31,6 +31,9 @@ public class UserInfoVo {
     @ApiModelProperty(value = "头衔背景颜色")
     private String titleColor;
 
+    @ApiModelProperty(value = "RP值")
+    private Integer rp;
+
     @ApiModelProperty(value = "邮箱")
     private String email;
 
@@ -64,7 +67,5 @@ public class UserInfoVo {
     @ApiModelProperty(value = "角色列表")
     private List<String> roleList;
 
-    @ApiModelProperty(value = "rp")
-    private int rp;
 
 }

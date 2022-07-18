@@ -51,6 +51,9 @@ public class DiscussionVo {
     @ApiModelProperty(value = "发表者头衔背景颜色")
     private String titleColor;
 
+    @ApiModelProperty(value = "RP值")
+    private Integer rp;
+
     @ApiModelProperty(value = "发表者角色")
     private String role;
 

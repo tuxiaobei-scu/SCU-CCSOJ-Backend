@@ -68,6 +68,9 @@ public class UserRolesVo implements Serializable {
     @ApiModelProperty(value = "头衔背景颜色")
     private String titleColor;
 
+    @ApiModelProperty(value = "RP值")
+    private Integer rp;
+
     @ApiModelProperty(value = "个性签名")
     private String signature;
 
@@ -83,6 +86,4 @@ public class UserRolesVo implements Serializable {
     @ApiModelProperty(value = "角色列表")
     private List<Role> roles;
 
-    @ApiModelProperty(value = "rp")
-    private int rp;
 }

@@ -21,4 +21,6 @@ public interface AccountService {
 
     public CommonResult<UserInfoVo> changeUserInfo(UserInfoVo userInfoVo);
 
+    public Integer changeUserRP(String uid, String username, Integer change, String description);
+
 }

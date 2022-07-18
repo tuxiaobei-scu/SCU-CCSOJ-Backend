@@ -1,10 +1,12 @@
 package top.hcode.hoj.judge;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.hcode.hoj.common.exception.SystemError;
+import top.hcode.hoj.common.result.CommonResult;
 import top.hcode.hoj.dao.ContestRecordEntityService;
 import top.hcode.hoj.dao.UserAcproblemEntityService;
 import top.hcode.hoj.dao.user.UserInfoEntityService;
@@ -15,10 +17,14 @@ import top.hcode.hoj.pojo.entity.problem.Problem;
 import top.hcode.hoj.pojo.entity.user.RpChange;
 import top.hcode.hoj.pojo.entity.user.UserAcproblem;
 import top.hcode.hoj.pojo.entity.user.UserInfo;
+import top.hcode.hoj.pojo.vo.ProblemInfoVo;
 import top.hcode.hoj.pojo.vo.UserRolesVo;
+import top.hcode.hoj.service.oj.AccountService;
+import top.hcode.hoj.service.oj.ProblemService;
 import top.hcode.hoj.util.Constants;
 
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * @Author: Himit_ZH
@@ -38,6 +44,12 @@ public class JudgeContext {
 
     @Autowired
     private ContestRecordEntityService contestRecordEntityService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private ProblemService problemService;
 
     @Autowired
     private top.hcode.hoj.dao.user.RpChangeEntityService RpChangeEntityService;
@@ -116,35 +128,25 @@ public class JudgeContext {
         if (cid == 0) { // 非比赛提交
             // 如果是AC,就更新user_acproblem表,
             if (status.intValue() == Constants.Judge.STATUS_ACCEPTED.getStatus() && gid == null) {
-                
+//                QueryWrapper<UserAcproblem> queryWrapper = new QueryWrapper<>();
+//                queryWrapper.eq("uid", uid).eq("pid", pid);
+//                int num = userAcproblemEntityService.count(queryWrapper);
+//                System.out.println(num);
+//                if (num == 0 || true) {
+//                    String problem_id = Long.toString(pid);
+//                    CommonResult<ProblemInfoVo> problemInfoVo = problemService.getProblemInfo(problem_id, gid);
+//                    int d = problemInfoVo.getData().getProblem().getDifficulty();
+//                    Random r = new Random();
+//                    int change = d * 2 + r.nextInt() % 3 + 1;
+//                    accountService.changeUserRP(uid, "", change, "通过题目" + problem_id);
+//                }
                 userAcproblemEntityService.saveOrUpdate(new UserAcproblem()
                         .setPid(pid)
                         .setUid(uid)
                         .setSubmitId(submitId)
                 );
 
-                Session session = SecurityUtils.getSubject().getSession();
-                UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
-                RpChange rpchange=new RpChange();
-                UserInfo userinfo=new UserInfo();
-                userinfo.setUuid(userRolesVo.getUid())
-                        .setCfUsername(userRolesVo.getCfUsername())
-                        .setRealname(userRolesVo.getRealname())
-                        .setNickname(userRolesVo.getNickname())
-                        .setSignature(userRolesVo.getSignature())
-                        .setBlog(userRolesVo.getBlog())
-                        .setGender(userRolesVo.getGender())
-                        .setEmail(userRolesVo.getEmail())
-                        .setGithub(userRolesVo.getGithub())
-                        .setSchool(userRolesVo.getSchool())
-                        .setNumber(userRolesVo.getNumber())
-                        .setRp(userRolesVo.getRp()+10);
-                userInfoEntityService.updateById(userinfo);
-                rpchange.setUid(userRolesVo.getUid())
-                        .setDescription("AC了"+pid)
-                        .setRpChange(10)
-                        .setUsername(userRolesVo.getUsername());
-                RpChangeEntityService.saveOrUpdate(rpchange);
+
             }
 
 

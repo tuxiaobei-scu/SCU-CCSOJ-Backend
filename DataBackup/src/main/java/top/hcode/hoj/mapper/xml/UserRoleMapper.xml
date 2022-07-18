@@ -13,6 +13,7 @@
         <result column="realname" property="realname"></result>
         <result column="cf_username" property="cfUsername"></result>
         <result column="github" property="github"></result>
+        <result column="rp" property="rp"></result>
         <result column="blog" property="blog"></result>
         <result column="email" property="email"></result>
         <result column="signature" property="signature"></result>
@@ -65,6 +66,7 @@
         <result column="realname" property="realname"></result>
         <result column="cf_username" property="cfUsername"></result>
         <result column="github" property="github"></result>
+        <result column="rp" property="rp"></result>
         <result column="blog" property="blog"></result>
         <result column="email" property="email"></result>
         <result column="signature" property="signature"></result>

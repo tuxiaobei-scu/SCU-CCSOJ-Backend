@@ -116,6 +116,7 @@ public class DiscussionManager {
 
         discussionQueryWrapper
                 .eq(!(admin && isAdmin), "status", 0)
+                .ne("id", 1)
                 .orderByDesc("top_priority")
                 .orderByDesc("gmt_create")
                 .orderByDesc("like_num")

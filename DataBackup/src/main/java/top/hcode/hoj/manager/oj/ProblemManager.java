@@ -1,7 +1,11 @@
 package top.hcode.hoj.manager.oj;
 
 import cn.hutool.core.collection.CollectionUtil;
+import top.hcode.hoj.common.result.CommonResult;
+import top.hcode.hoj.dao.user.RpChangeEntityService;
 import top.hcode.hoj.manager.admin.problem.AdminGroupProblemManager;
+import top.hcode.hoj.pojo.entity.user.RpChange;
+import top.hcode.hoj.service.oj.AccountService;
 import top.hcode.hoj.validator.GroupValidator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -66,6 +70,12 @@ public class ProblemManager {
 
     @Autowired
     private GroupValidator groupValidator;
+
+    @Autowired
+    private RpChangeEntityService rpChangeEntityService;
+
+    @Autowired
+    private AccountService accountService;
 
     /**
      * @MethodName getProblemList
@@ -213,6 +223,37 @@ public class ProblemManager {
                 }
             }
         }
+
+        Iterator<Long> iterator = result.keySet().iterator();
+        while (iterator.hasNext()) {
+            Long key = iterator.next();
+            Long pid = key;
+            HashMap<String, Object> data = (HashMap<String, Object>)result.get(key);
+            if ((int)data.get("status") == 0) {
+                QueryWrapper<RpChange> rpqueryWrapper = new QueryWrapper<>();
+                rpqueryWrapper.eq("uid", userRolesVo.getUid()).eq("description", "通过题目 " + pid);
+                int num = rpChangeEntityService.count(rpqueryWrapper);
+                System.out.println(num);
+                if (num == 0) {
+                    ProblemInfoVo problemInfoVo = null;
+                    System.out.println("uid " + userRolesVo.getUid());
+                    System.out.println("pid " + pid);
+                    try {
+                        problemInfoVo = getProblemInfo(pid, 0L);
+                    } catch (StatusForbiddenException e) {
+                        e.printStackTrace();
+                    }
+                    int d = problemInfoVo.getProblem().getDifficulty();
+                    Random r = new Random();
+                    int change = d * 2 + r.nextInt(3) + 1;
+
+                    System.out.println("d " + d);
+                    System.out.println("change " + change);
+
+                    accountService.changeUserRP(userRolesVo.getUid(), userRolesVo.getUsername(), change, "通过题目 " + pid);
+                }
+            }
+        }
         return result;
 
     }
@@ -229,6 +270,100 @@ public class ProblemManager {
         boolean isRoot = SecurityUtils.getSubject().hasRole("root");
 
         QueryWrapper<Problem> wrapper = new QueryWrapper<Problem>().eq("problem_id", problemId);
+        //查询题目详情，题目标签，题目语言，题目做题情况
+        Problem problem = problemEntityService.getOne(wrapper, false);
+        if (problem == null) {
+            throw new StatusNotFoundException("该题号对应的题目不存在");
+        }
+        if (problem.getAuth() != 1) {
+            throw new StatusForbiddenException("该题号对应题目并非公开题目，不支持访问！");
+        }
+
+        if (problem.getIsGroup()) {
+            if (!isRoot && !groupValidator.isGroupMember(userRolesVo.getUid(), problem.getGid())) {
+                throw new StatusForbiddenException("该题号对应题目并非公开题目，不支持访问！");
+            }
+        }
+
+        QueryWrapper<ProblemTag> problemTagQueryWrapper = new QueryWrapper<>();
+        problemTagQueryWrapper.eq("pid", problem.getId());
+
+        // 获取该题号对应的标签id
+        List<Long> tidList = new LinkedList<>();
+        problemTagEntityService.list(problemTagQueryWrapper).forEach(problemTag -> {
+            tidList.add(problemTag.getTid());
+        });
+        List<Tag> tags = new ArrayList<>();
+        if (tidList.size() > 0) {
+            tags = (List<Tag>) tagEntityService.listByIds(tidList);
+        }
+
+        // 记录 languageId对应的name
+        HashMap<Long, String> tmpMap = new HashMap<>();
+        // 获取题目提交的代码支持的语言
+        List<String> languagesStr = new LinkedList<>();
+        QueryWrapper<ProblemLanguage> problemLanguageQueryWrapper = new QueryWrapper<>();
+        problemLanguageQueryWrapper.eq("pid", problem.getId()).select("lid");
+        List<Long> lidList = problemLanguageEntityService.list(problemLanguageQueryWrapper)
+                .stream().map(ProblemLanguage::getLid).collect(Collectors.toList());
+        if (CollectionUtil.isNotEmpty(lidList)) {
+            languageEntityService.listByIds(lidList).forEach(language -> {
+                languagesStr.add(language.getName());
+                tmpMap.put(language.getId(), language.getName());
+            });
+        }
+        // 获取题目的提交记录
+        ProblemCountVo problemCount = judgeEntityService.getProblemCount(problem.getId(), gid);
+
+        // 获取题目的代码模板
+        QueryWrapper<CodeTemplate> codeTemplateQueryWrapper = new QueryWrapper<>();
+        codeTemplateQueryWrapper.eq("pid", problem.getId()).eq("status", true);
+        List<CodeTemplate> codeTemplates = codeTemplateEntityService.list(codeTemplateQueryWrapper);
+        HashMap<String, String> LangNameAndCode = new HashMap<>();
+        if (CollectionUtil.isNotEmpty(codeTemplates)) {
+            for (CodeTemplate codeTemplate : codeTemplates) {
+                LangNameAndCode.put(tmpMap.get(codeTemplate.getLid()), codeTemplate.getCode());
+            }
+        }
+        // 屏蔽一些题目参数
+        problem.setJudgeExtraFile(null)
+                .setSpjCode(null)
+                .setSpjLanguage(null);
+        List<String> file_names = new ArrayList<>();
+        if (problem.getType() == 2) {
+            QueryWrapper<ProblemCase> problemCaseQueryWrapper = new QueryWrapper<>();
+            problemCaseQueryWrapper.eq("pid", problem.getId()).eq("status", 0);
+            if (problem.getIsUploadCase()) {
+                problemCaseQueryWrapper.last("order by length(input) asc,input asc");
+            }
+            List<ProblemCase> datas =  problemCaseEntityService.list(problemCaseQueryWrapper);
+            int i = 1;
+            for (ProblemCase data: datas) {
+                if (problem.getIsUploadCase()) {
+                    file_names.add(data.getOutput());
+                } else {
+                    String name = "flag" + i;
+                    file_names.add(name);
+                    i += 1;
+                }
+            }
+        }
+        // 将数据统一写入到一个Vo返回数据实体类中
+        return new ProblemInfoVo(problem, tags, languagesStr, problemCount, LangNameAndCode, file_names);
+    }
+
+    /**
+     * @MethodName getProblemInfo
+     * @Description 获取指定题目的详情信息，标签，所支持语言，做题情况（只能查询公开题目 也就是auth为1）
+     * @Since 2020/10/27
+     */
+    public ProblemInfoVo getProblemInfo(Long pid, Long gid) throws StatusNotFoundException, StatusForbiddenException {
+        Session session = SecurityUtils.getSubject().getSession();
+        UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
+
+        boolean isRoot = SecurityUtils.getSubject().hasRole("root");
+
+        QueryWrapper<Problem> wrapper = new QueryWrapper<Problem>().eq("id", pid);
         //查询题目详情，题目标签，题目语言，题目做题情况
         Problem problem = problemEntityService.getOne(wrapper, false);
         if (problem == null) {

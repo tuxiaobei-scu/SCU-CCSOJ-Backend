@@ -88,6 +88,9 @@ public class UserInfo implements Serializable {
     @ApiModelProperty(value = "头衔、称号的颜色")
     private String titleColor;
 
+    @ApiModelProperty(value = "RP值")
+    private Integer rp;
+
     @ApiModelProperty(value = "0可用，-1不可用")
     private int status;
 
@@ -98,7 +101,4 @@ public class UserInfo implements Serializable {
     @ApiModelProperty(value = "修改时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
-
-    @ApiModelProperty(value = "rp")
-    private int rp;
 }

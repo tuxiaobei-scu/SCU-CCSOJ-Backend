@@ -268,28 +268,6 @@ public class JudgeManager {
                 userAcproblemQueryWrapper.eq("submit_id", judge.getSubmitId());
                 userAcproblemEntityService.remove(userAcproblemQueryWrapper);
             }
-            else {
-                RpChange rpchange=new RpChange();
-                UserInfo userinfo=new UserInfo();
-                userinfo.setUuid(userRolesVo.getUid())
-                        .setCfUsername(userRolesVo.getCfUsername())
-                        .setRealname(userRolesVo.getRealname())
-                        .setNickname(userRolesVo.getNickname())
-                        .setSignature(userRolesVo.getSignature())
-                        .setBlog(userRolesVo.getBlog())
-                        .setGender(userRolesVo.getGender())
-                        .setEmail(userRolesVo.getEmail())
-                        .setGithub(userRolesVo.getGithub())
-                        .setSchool(userRolesVo.getSchool())
-                        .setNumber(userRolesVo.getNumber())
-                        .setRp(userRolesVo.getRp()+10);
-                userInfoEntityService.updateById(userinfo);
-                rpchange.setUid(userRolesVo.getUid())
-                        .setDescription("AC了"+judge.getPid())
-                        .setRpChange(10)
-                        .setUsername(userRolesVo.getUsername());
-                RpChangeEntityService.saveOrUpdate(rpchange);
-            }
         } else {
             if (problem.getIsRemote()) {
                 // 将对应比赛记录设置成默认值

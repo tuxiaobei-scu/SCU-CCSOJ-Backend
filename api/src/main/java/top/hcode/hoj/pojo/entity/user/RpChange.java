@@ -40,6 +40,9 @@ public class RpChange {
     @ApiModelProperty(value = "RpChange")
     private Integer rpChange;
 
+    @ApiModelProperty(value = "Rp")
+    private Integer rp;
+
     @ApiModelProperty(value = "修改时间")
     @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;

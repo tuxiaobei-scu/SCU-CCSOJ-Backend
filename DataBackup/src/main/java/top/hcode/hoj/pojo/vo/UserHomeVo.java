@@ -49,6 +49,9 @@ public class UserHomeVo {
     @ApiModelProperty(value = "头衔、称号的颜色")
     private String titleColor;
 
+    @ApiModelProperty(value = "RP值")
+    private Integer rp;
+
     @ApiModelProperty(value = "总提交数")
     private Integer total;
 

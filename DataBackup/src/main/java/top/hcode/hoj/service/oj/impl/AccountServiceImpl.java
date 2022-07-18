@@ -78,4 +78,14 @@ public class AccountServiceImpl implements AccountService {
             return CommonResult.errorResponse(e.getMessage());
         }
     }
+
+    @Override
+    public Integer changeUserRP(String uid, String username, Integer change, String description) {
+        try {
+            System.out.println("655555555555555");
+            return accountManager.changeUserRP(uid, username, change, description);
+        } catch (StatusFailException e) {
+            return -1;
+        }
+    }
 }
