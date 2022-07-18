@@ -415,13 +415,13 @@ public class AccountManager {
     }
 
     public Integer changeUserRP(String uid, String username, Integer change, String description) throws StatusFailException {
-        System.out.println("uid " + uid);
-        System.out.println("username " + username);
+        //System.out.println("uid " + uid);
+        //System.out.println("username " + username);
         UserHomeVo userHomeVo = getUserHomeInfo(uid, username);
         Integer cur_rp = userHomeVo.getRp();
-        System.out.println("cur_rp" + cur_rp);
+        //System.out.println("cur_rp" + cur_rp);
         cur_rp += change;
-        System.out.println("cur_rp" + cur_rp);
+        //System.out.println("cur_rp" + cur_rp);
         if (cur_rp < 0) {
             return -1;
         }

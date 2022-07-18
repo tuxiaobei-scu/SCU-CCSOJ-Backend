@@ -525,7 +525,8 @@ public class JudgeManager {
         if (searchUsername != null) {
             searchUsername = searchUsername.trim();
         }
-
+        //System.out.println(uid);
+        //System.out.println(username);
         return judgeEntityService.getRpChangeList(limit,
                 currentPage,
                 searchUsername,

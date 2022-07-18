@@ -35,7 +35,7 @@
     </select>
 
     <select id="getRpChangeList" resultType="top.hcode.hoj.pojo.vo.RpChangeVo" useCache="true">
-        select rc.id,rc.uid,rc.username,rc.rp_change,rc.gmt_create,rc.description
+        select rc.id,rc.uid,rc.username,rc.rp_change,rc.gmt_create,rc.description, rc.rp
         from rp_change rc
         <where>
             <if test="username!='' and username!=null">

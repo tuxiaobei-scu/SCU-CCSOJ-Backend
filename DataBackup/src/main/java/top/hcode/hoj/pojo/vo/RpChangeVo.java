@@ -26,6 +26,9 @@ public class RpChangeVo {
     @ApiModelProperty(value = "RP改变量")
     private Integer rpChange;
 
+    @ApiModelProperty(value = "RP")
+    private Integer rp;
+
     @ApiModelProperty(value = "结果码具体参考文档")
     private Date gmtCreate;
 

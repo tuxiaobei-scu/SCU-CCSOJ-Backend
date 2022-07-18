@@ -233,11 +233,11 @@ public class ProblemManager {
                 QueryWrapper<RpChange> rpqueryWrapper = new QueryWrapper<>();
                 rpqueryWrapper.eq("uid", userRolesVo.getUid()).eq("description", "通过题目 " + pid);
                 int num = rpChangeEntityService.count(rpqueryWrapper);
-                System.out.println(num);
+                //System.out.println(num);
                 if (num == 0) {
                     ProblemInfoVo problemInfoVo = null;
-                    System.out.println("uid " + userRolesVo.getUid());
-                    System.out.println("pid " + pid);
+                    //System.out.println("uid " + userRolesVo.getUid());
+                    //System.out.println("pid " + pid);
                     try {
                         problemInfoVo = getProblemInfo(pid, 0L);
                     } catch (StatusForbiddenException e) {
@@ -247,8 +247,8 @@ public class ProblemManager {
                     Random r = new Random();
                     int change = d * 2 + r.nextInt(3) + 1;
 
-                    System.out.println("d " + d);
-                    System.out.println("change " + change);
+                    //System.out.println("d " + d);
+                    //System.out.println("change " + change);
 
                     accountService.changeUserRP(userRolesVo.getUid(), userRolesVo.getUsername(), change, "通过题目 " + pid);
                 }

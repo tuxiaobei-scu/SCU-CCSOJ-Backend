@@ -36,8 +36,8 @@ public interface JudgeMapper extends BaseMapper<Judge> {
     IPage<RpChangeVo> getRpChangeList(Page<RpChangeVo> page,
                                       @Param("searchPid") String searchPid,
                                       @Param("Id") String Id,
-                                      @Param("uid") String uid,
                                       @Param("username") String username,
+                                      @Param("uid") String uid,
                                       @Param("RpChange") Integer rpChange,
                                       @Param("description") String description);
 
