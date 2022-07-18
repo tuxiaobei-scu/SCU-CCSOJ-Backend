@@ -19,6 +19,7 @@ public interface ProblemService {
 
     public CommonResult<Page<ProblemVo>> getProblemList(Integer limit, Integer currentPage,
                                                         String keyword, List<Long> tagId, Integer difficulty, String oj);
+    public CommonResult<String> getProblemHint(String ProblemId);
 
     public CommonResult<RandomProblemVo> getRandomProblem();
 

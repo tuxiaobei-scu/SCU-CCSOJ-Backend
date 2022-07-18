@@ -446,4 +446,10 @@ public class ProblemManager {
         return new ProblemInfoVo(problem, tags, languagesStr, problemCount, LangNameAndCode, file_names);
     }
 
+    public String getProblemHint(String problemId) {
+        Session session = SecurityUtils.getSubject().getSession();
+        UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
+        accountService.changeUserRP(userRolesVo.getUid(),userRolesVo.getUsername(),-2,"在题目"+problemId+"使用了hint");
+        return problemEntityService.getProblemHint(problemId);
+    }
 }
