@@ -1,9 +1,11 @@
 package top.hcode.hoj.dao.discussion;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import top.hcode.hoj.common.result.CommonResult;
 import top.hcode.hoj.pojo.entity.discussion.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.hcode.hoj.pojo.entity.discussion.Reply;
+import top.hcode.hoj.pojo.vo.CommentListVo;
 import top.hcode.hoj.pojo.vo.CommentVo;
 import top.hcode.hoj.pojo.vo.ReplyVo;
 
@@ -24,4 +26,5 @@ public interface CommentEntityService extends IService<Comment> {
     void updateCommentMsg(String recipientId, String senderId, String content, Integer discussionId, Long gid);
 
     void updateCommentLikeMsg(String recipientId, String senderId, Integer sourceId, String sourceType);
+
 }

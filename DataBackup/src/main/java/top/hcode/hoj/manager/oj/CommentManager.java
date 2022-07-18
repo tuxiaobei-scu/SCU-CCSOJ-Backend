@@ -5,6 +5,8 @@ import cn.hutool.extra.emoji.EmojiUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.poi.ddf.EscherBSERecord;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import top.hcode.hoj.dao.discussion.CommentEntityService;
 import top.hcode.hoj.dao.discussion.CommentLikeEntityService;
 import top.hcode.hoj.dao.discussion.DiscussionEntityService;
 import top.hcode.hoj.dao.discussion.ReplyEntityService;
+import top.hcode.hoj.dao.user.RpChangeEntityService;
 import top.hcode.hoj.dao.user.UserAcproblemEntityService;
 import top.hcode.hoj.exception.AccessException;
 import top.hcode.hoj.pojo.dto.ReplyDto;
@@ -27,12 +30,15 @@ import top.hcode.hoj.pojo.entity.discussion.Comment;
 import top.hcode.hoj.pojo.entity.discussion.CommentLike;
 import top.hcode.hoj.pojo.entity.discussion.Discussion;
 import top.hcode.hoj.pojo.entity.discussion.Reply;
+import top.hcode.hoj.pojo.entity.user.RpChange;
 import top.hcode.hoj.pojo.entity.user.UserAcproblem;
 import top.hcode.hoj.pojo.vo.*;
+import top.hcode.hoj.service.oj.AccountService;
 import top.hcode.hoj.validator.AccessValidator;
 import top.hcode.hoj.validator.ContestValidator;
 import top.hcode.hoj.validator.GroupValidator;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,6 +54,8 @@ public class CommentManager {
     @Autowired
     private CommentEntityService commentEntityService;
 
+    @Autowired
+    private AccountService accountService;
     @Autowired
     private CommentLikeEntityService commentLikeEntityService;
 
@@ -534,5 +542,11 @@ public class CommentManager {
         } else {
             throw new StatusFailException("删除失败，请重新尝试");
         }
+    }
+
+    public void getUserChecked() {
+        Session session = SecurityUtils.getSubject().getSession();
+        UserRolesVo userRolesVo = (UserRolesVo) session.getAttribute("userInfo");
+        accountService.changeUserRP(userRolesVo.getUid(),userRolesVo.getUsername(),1,"签到");
     }
 }

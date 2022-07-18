@@ -28,6 +28,9 @@ public class CommentController {
     private CommentService commentService;
 
 
+    @GetMapping("/get-user-checked")
+    public void getUserChecked() {commentService.getUserChecked();}
+
     @GetMapping("/comments")
     public CommonResult<CommentListVo> getComments(@RequestParam(value = "cid", required = false) Long cid,
                                                    @RequestParam(value = "did", required = false) Integer did,

@@ -27,7 +27,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Resource
     private CommentManager commentManager;
-
+    public void getUserChecked() {
+        commentManager.getUserChecked();
+    }
     @Override
     public CommonResult<CommentListVo> getComments(Long cid, Integer did, Integer limit, Integer currentPage) {
         try {

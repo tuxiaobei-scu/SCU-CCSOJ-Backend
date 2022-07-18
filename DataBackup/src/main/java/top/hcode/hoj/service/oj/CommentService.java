@@ -25,4 +25,6 @@ public interface CommentService {
     public CommonResult<ReplyVo> addReply(ReplyDto replyDto);
 
     public CommonResult<Void> deleteReply(ReplyDto replyDto);
+
+    public void getUserChecked();
 }

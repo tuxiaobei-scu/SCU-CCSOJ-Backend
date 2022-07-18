@@ -10,8 +10,10 @@ import org.springframework.util.StringUtils;
 import top.hcode.hoj.common.exception.StatusFailException;
 import top.hcode.hoj.common.exception.StatusForbiddenException;
 import top.hcode.hoj.common.exception.StatusNotFoundException;
+import top.hcode.hoj.common.result.CommonResult;
 import top.hcode.hoj.dao.common.AnnouncementEntityService;
 import top.hcode.hoj.dao.contest.*;
+import top.hcode.hoj.dao.discussion.CommentEntityService;
 import top.hcode.hoj.dao.group.GroupMemberEntityService;
 import top.hcode.hoj.dao.judge.JudgeEntityService;
 import top.hcode.hoj.dao.problem.*;
@@ -92,6 +94,9 @@ public class ContestManager {
     private RedisUtils redisUtils;
 
     @Autowired
+    private CommentEntityService commentEntityService;
+
+    @Autowired
     private ContestValidator contestValidator;
 
     @Autowired
@@ -109,7 +114,6 @@ public class ContestManager {
         if (limit == null || limit < 1) limit = 10;
         return contestEntityService.getContestList(limit, currentPage, type, status, keyword);
     }
-
 
     public ContestVo getContestInfo(Long cid) throws StatusFailException, StatusForbiddenException {
         Session session = SecurityUtils.getSubject().getSession();
