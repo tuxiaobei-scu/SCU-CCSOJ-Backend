@@ -6,22 +6,20 @@ import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.hcode.hoj.common.exception.SystemError;
-import top.hcode.hoj.common.result.CommonResult;
 import top.hcode.hoj.dao.ContestRecordEntityService;
 import top.hcode.hoj.dao.UserAcproblemEntityService;
-import top.hcode.hoj.dao.user.UserInfoEntityService;
+//import top.hcode.hoj.dao.user.RpChangeEntityService;
+//import top.hcode.hoj.dao.user.UserInfoEntityService;
 import top.hcode.hoj.pojo.dto.TestJudgeReq;
 import top.hcode.hoj.pojo.dto.TestJudgeRes;
 import top.hcode.hoj.pojo.entity.judge.Judge;
 import top.hcode.hoj.pojo.entity.problem.Problem;
 import top.hcode.hoj.pojo.entity.user.RpChange;
 import top.hcode.hoj.pojo.entity.user.UserAcproblem;
-import top.hcode.hoj.pojo.entity.user.UserInfo;
-import top.hcode.hoj.pojo.vo.ProblemInfoVo;
-import top.hcode.hoj.pojo.vo.UserRolesVo;
-import top.hcode.hoj.service.oj.AccountService;
-import top.hcode.hoj.service.oj.ProblemService;
+//import top.hcode.hoj.service.oj.AccountService;
+//mport top.hcode.hoj.service.oj.ProblemService;
 import top.hcode.hoj.util.Constants;
+//import top.hcode.hoj.dao.user.RpChangeEntityService;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -36,8 +34,6 @@ public class JudgeContext {
 
     @Autowired
     private JudgeStrategy judgeStrategy;
-    @Autowired
-    private UserInfoEntityService userInfoEntityService;
 
     @Autowired
     private UserAcproblemEntityService userAcproblemEntityService;
@@ -45,14 +41,14 @@ public class JudgeContext {
     @Autowired
     private ContestRecordEntityService contestRecordEntityService;
 
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private ProblemService problemService;
-
-    @Autowired
-    private top.hcode.hoj.dao.user.RpChangeEntityService RpChangeEntityService;
+//    @Autowired
+//    private AccountService accountService;
+//
+//    @Autowired
+//    private ProblemService problemService;
+//
+//    @Autowired
+//    private  RpChangeEntityService RpChangeEntityService;
 
     public Judge Judge(Problem problem, Judge judge) {
 
