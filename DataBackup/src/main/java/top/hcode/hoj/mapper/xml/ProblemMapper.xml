@@ -57,6 +57,12 @@
         order by length(p.problem_id) asc,p.problem_id asc
     </select>
 
+    <select id="getProblemHint" resultType="java.lang.String">
+        SELECT p.hint
+        FROM problem p
+        where p.problem_id=#{problemId}
+    </select>
+
     <!-- 子查询 :为了防止分页总数据数出错-->
     <select id="getProblemTag" resultType="top.hcode.hoj.pojo.entity.problem.Tag">
         select t.* from tag t,problem_tag pt where t.id = pt.tid and pt.pid = #{pid}

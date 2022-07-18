@@ -70,6 +70,11 @@ public class ProblemEntityServiceImpl extends ServiceImpl<ProblemMapper, Problem
     private CodeTemplateEntityService codeTemplateEntityService;
 
     @Override
+    public String getProblemHint(String problemId) {
+        return problemMapper.getProblemHint(problemId);
+    }
+
+    @Override
     public Page<ProblemVo> getProblemList(int limit, int currentPage, Long pid, String title, Integer difficulty,
                                           List<Long> tid, String oj) {
 

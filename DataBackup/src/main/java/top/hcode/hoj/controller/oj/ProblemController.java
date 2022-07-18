@@ -47,6 +47,12 @@ public class ProblemController {
         return problemService.getProblemList(limit, currentPage, keyword, tagId, difficulty, oj);
     }
 
+    @RequestMapping(value = "/get-hint", method = RequestMethod.GET)
+    public CommonResult<String> getHint(@RequestParam(value = "problemId", required = false) String problemId){
+
+        return problemService.getProblemHint(problemId);
+    }
+
     /**
      * @MethodName getRandomProblem
      * @Description 随机选取一道题目

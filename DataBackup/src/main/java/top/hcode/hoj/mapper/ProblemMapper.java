@@ -28,4 +28,5 @@ public interface ProblemMapper extends BaseMapper<Problem> {
                                    @Param("tid") List<Long> tid,
                                    @Param("tagListSize") Integer tagListSize,
                                    @Param("oj") String oj);
+    String getProblemHint(@Param("problemId") String problemId);
 }

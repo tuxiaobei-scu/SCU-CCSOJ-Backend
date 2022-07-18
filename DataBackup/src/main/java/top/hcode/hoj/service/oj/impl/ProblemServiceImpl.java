@@ -35,6 +35,11 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    public CommonResult<String> getProblemHint(String ProblemId) {
+        return CommonResult.successResponse(problemManager.getProblemHint(ProblemId));
+    }
+
+    @Override
     public CommonResult<RandomProblemVo> getRandomProblem() {
         try {
             return CommonResult.successResponse(problemManager.getRandomProblem());
